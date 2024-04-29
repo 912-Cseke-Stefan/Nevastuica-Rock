@@ -1,7 +1,6 @@
 ﻿namespace Moderation.Entities
 {
     public class JoinRequestAnswerToOneQuestion : IHasID
-
     {
         public Guid Id { get; set; }
         public Guid RequestId { get; set; }

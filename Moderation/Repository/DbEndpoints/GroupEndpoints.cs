@@ -1,8 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation.DbEndpoints
@@ -10,7 +10,7 @@ namespace Moderation.DbEndpoints
     internal class GroupEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Group> hardcodedGroups = new()
+        private static readonly Dictionary<Guid, Group> hardcodedGroups = new ()
         {
             {
                 Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
@@ -18,8 +18,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
                     "Izabella's birthday party",
                     "balabla",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"))??new User("Izabella")
-                )
+                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1")) ?? new User("Izabella"))
             },
             {
                 Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
@@ -27,8 +26,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
                     "Victor's study group",
                     "none provided",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"))??new User("Victor")
-                )
+                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06")) ?? new User("Victor"))
             }
         };
         public static void CreateGroup(Group group)
@@ -38,7 +36,7 @@ namespace Moderation.DbEndpoints
                 hardcodedGroups.Add(group.Id, group);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -54,7 +52,7 @@ namespace Moderation.DbEndpoints
             string sql = "INSERT INTO [Group] (Id, Name, Description, Owner) " +
                          "VALUES (@Id, @Name, @Description, @Owner)";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", group.Id);
             command.Parameters.AddWithValue("@Name", group.Name);
             command.Parameters.AddWithValue("@Description", group.Description);
@@ -69,7 +67,7 @@ namespace Moderation.DbEndpoints
                 return [.. hardcodedGroups.Values];
             }
 
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -84,7 +82,7 @@ namespace Moderation.DbEndpoints
             List<Group> groups = [];
             string sql = "SELECT Id, Name, Description, Owner FROM [Group]";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -94,13 +92,12 @@ namespace Moderation.DbEndpoints
                     .UserRepository?.Get(userId)?
                     .Username // if anything is null along the way throw an exception:
                     ?? throw new Exception("No username by that id");
-                User user = new(userId, username);
+                User user = new (userId, username);
 
-                Group group = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
+                Group group = new (reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
                 groups.Add(group);
             }
             return groups;
-
         }
         private static void UpdateGroupIfDBUnvailable(Group group)
         {
@@ -116,7 +113,7 @@ namespace Moderation.DbEndpoints
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -132,7 +129,7 @@ namespace Moderation.DbEndpoints
                          "SET Name = @Name, Description = @Description, Owner = @Owner" +
                          "WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Name", group.Name);
             command.Parameters.AddWithValue("@Description", group.Description);
             command.Parameters.AddWithValue("@Owner", group.Creator.Id);
@@ -146,7 +143,7 @@ namespace Moderation.DbEndpoints
                 hardcodedGroups.Remove(id);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -161,7 +158,7 @@ namespace Moderation.DbEndpoints
 
             string sql = "DELETE FROM Group WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
             command.ExecuteNonQuery();

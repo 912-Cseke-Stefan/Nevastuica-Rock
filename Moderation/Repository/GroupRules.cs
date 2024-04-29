@@ -12,9 +12,9 @@ namespace Moderation.Repository
         public GroupRules(Dictionary<Guid, Model.Rule> data) : base(data) { }
         public GroupRules() : base() { }
 
-        //public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)
-        //{
+        // public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)
+        // {
         //    return data.Values.Where(q => q.GroupId == groupId);
-        //}
+        // }
     }
 }

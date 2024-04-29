@@ -18,7 +18,7 @@ public partial class LoginPage : ContentPage
 
         try
         {
-            //CurrentApp.Authenticator.AuthMethod(username, password); <-- this got temporarily replaced by this:|
+            // CurrentApp.Authenticator.AuthMethod(username, password); <-- this got temporarily replaced by this:|
             //                                                                                                   v
             Guid userId = ApplicationState.Get().UserRepository.GetGuidByName(username)
                 ?? throw new ArgumentException("No account with that username");
