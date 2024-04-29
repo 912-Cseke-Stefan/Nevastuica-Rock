@@ -1,39 +1,42 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
 
 namespace Moderation.Repository
 {
-    public class JoinRequestAnswerForOneQuestionRepository : Repository<JoinRequestAnswerToOneQuestion>
+    public class JoinRequestAnswerForOneQuestionRepository : IJoinRequestAnswerForOneQuestionRepository
     {
-        public JoinRequestAnswerForOneQuestionRepository(Dictionary<Guid, JoinRequestAnswerToOneQuestion> data) : base(data)
+        protected readonly Dictionary<Guid, JoinRequestAnswerToOneQuestion> data;
+        public JoinRequestAnswerForOneQuestionRepository(Dictionary<Guid, JoinRequestAnswerToOneQuestion> data)
         {
+            this.data = data;
         }
         public JoinRequestAnswerForOneQuestionRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, JoinRequestAnswerToOneQuestion value)
+        public bool Add(Guid key, JoinRequestAnswerToOneQuestion value)
         {
             JoinRequestAnswerForOneQuestionEndpoints.CreateQuestion(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return JoinRequestAnswerForOneQuestionEndpoints.ReadQuestion().Exists(a => a.Id == key);
         }
 
-        public override JoinRequestAnswerToOneQuestion? Get(Guid key)
+        public JoinRequestAnswerToOneQuestion? Get(Guid key)
         {
             return JoinRequestAnswerForOneQuestionEndpoints.ReadQuestion().Find(a => a.Id == key);
         }
 
-        public override IEnumerable<JoinRequestAnswerToOneQuestion> GetAll()
+        public IEnumerable<JoinRequestAnswerToOneQuestion> GetAll()
         {
             return JoinRequestAnswerForOneQuestionEndpoints.ReadQuestion();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             throw new Exception("Remove needs more than just the id");
         }
@@ -43,7 +46,7 @@ namespace Moderation.Repository
             return true;
         }
 
-        public override bool Update(Guid key, JoinRequestAnswerToOneQuestion value)
+        public bool Update(Guid key, JoinRequestAnswerToOneQuestion value)
         {
             JoinRequestAnswerForOneQuestionEndpoints.UpdateQuestion(value);
             return true;

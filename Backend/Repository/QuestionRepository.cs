@@ -1,11 +1,15 @@
-﻿using Moderation.Model;
+﻿using Backend.Repository.Interfaces;
+using Moderation.Entities;
+using Moderation.Model;
 
 namespace Moderation.Repository
 {
-    public class QuestionRepository : Repository<Question>
+    public class QuestionRepository : IQuestionRepository
     {
-        public QuestionRepository(Dictionary<Guid, Question> data) : base(data)
+        protected readonly Dictionary<Guid, Question> data;
+        public QuestionRepository(Dictionary<Guid, Question> data)
         {
+            this.data = data;
         }
         public QuestionRepository() : base()
         {

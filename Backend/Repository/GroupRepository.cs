@@ -1,46 +1,50 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
+using Moderation.Entities;
 using Moderation.Model;
 
 namespace Moderation.Repository
 {
-    public class GroupRepository : Repository<Group>
+    public class GroupRepository : IGroupRepository
     {
-        public GroupRepository(Dictionary<Guid, Group> data) : base(data)
+        protected readonly Dictionary<Guid, Group> data;
+        public GroupRepository(Dictionary<Guid, Group> data)
         {
+            this.data = data;
         }
 
         public GroupRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, Group value)
+        public bool Add(Guid key, Group value)
         {
             GroupEndpoints.CreateGroup(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return GroupEndpoints.ReadAllGroups().Exists(u => u.Id == key);
         }
 
-        public override Group? Get(Guid key)
+        public  Group? Get(Guid key)
         {
             return GroupEndpoints.ReadAllGroups().Find(u => u.Id == key);
         }
 
-        public override IEnumerable<Group> GetAll()
+        public IEnumerable<Group> GetAll()
         {
             return GroupEndpoints.ReadAllGroups();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             GroupEndpoints.DeleteGroup(key);
             return true;
         }
 
-        public override bool Update(Guid key, Group value)
+        public bool Update(Guid key, Group value)
         {
             GroupEndpoints.UpdateGroup(value);
             return true;
