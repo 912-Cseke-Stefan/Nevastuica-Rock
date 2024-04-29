@@ -2,9 +2,9 @@
 
 namespace Moderation.Repository
 {
-    public class Repository<T> : IRepository<T> where T : IHasID
+    public class Repository<T> : IRepository<T>
+        where T : IHasID
     {
-
         protected readonly Dictionary<Guid, T> data;
         public Repository(Dictionary<Guid, T> data)
         {
@@ -17,7 +17,11 @@ namespace Moderation.Repository
 
         public virtual bool Add(Guid key, T value)
         {
-            if (data.ContainsKey(key)) return false;
+            if (data.ContainsKey(key))
+            {
+                return false;
+            }
+
             data.Add(key, value);
             return true;
         }
@@ -44,7 +48,11 @@ namespace Moderation.Repository
         }
         public virtual bool Update(Guid key, T value)
         {
-            if (!data.ContainsKey(key)) return false;
+            if (!data.ContainsKey(key))
+            {
+                return false;
+            }
+
             data[key] = value;
             return true;
         }

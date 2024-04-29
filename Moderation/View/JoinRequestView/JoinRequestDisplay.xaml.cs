@@ -67,8 +67,6 @@ public partial class JoinRequestDisplay : ContentView
             stackLayout.Children.Add(frame);
         }
 
-
-
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
         var acceptButton = new Button { Text = "Accept" };
         acceptButton.Clicked += OnAcceptClicked;

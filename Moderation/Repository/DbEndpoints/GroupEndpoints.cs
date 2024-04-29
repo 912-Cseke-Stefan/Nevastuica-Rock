@@ -9,8 +9,8 @@ namespace Moderation.DbEndpoints
 {
     internal class GroupEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Group> hardcodedGroups = new()
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, Group> HardcodedGroups = new ()
         {
             {
                 Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
@@ -18,8 +18,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
                     "Izabella's birthday party",
                     "balabla",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"))??new User("Izabella")
-                )
+                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1")) ?? new User("Izabella"))
             },
             {
                 Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
@@ -27,18 +26,17 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
                     "Victor's study group",
                     "none provided",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"))??new User("Victor")
-                )
+                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06")) ?? new User("Victor"))
             }
         };
         public static void CreateGroup(Group group)
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedGroups.Add(group.Id, group);
+                HardcodedGroups.Add(group.Id, group);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -47,7 +45,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedGroups.Add(group.Id, group);
+                HardcodedGroups.Add(group.Id, group);
                 return;
             }
 
@@ -66,10 +64,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedGroups.Values];
+                return [.. HardcodedGroups.Values];
             }
 
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -78,7 +76,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedGroups.Values];
+                return [.. HardcodedGroups.Values];
             }
 
             List<Group> groups = [];
@@ -100,13 +98,15 @@ namespace Moderation.DbEndpoints
                 groups.Add(group);
             }
             return groups;
-
         }
         private static void UpdateGroupIfDBUnvailable(Group group)
         {
-            if (hardcodedGroups[group.Id] == null)
+            if (HardcodedGroups[group.Id] == null)
+            {
                 return;
-            hardcodedGroups[group.Id] = group;
+            }
+
+            HardcodedGroups[group.Id] = group;
             return;
         }
         public static void UpdateGroup(Group group)
@@ -116,7 +116,7 @@ namespace Moderation.DbEndpoints
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -143,10 +143,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedGroups.Remove(id);
+                HardcodedGroups.Remove(id);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -155,7 +155,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedGroups.Remove(id);
+                HardcodedGroups.Remove(id);
                 return;
             }
 

@@ -31,8 +31,7 @@ public partial class ReportDisplay : ContentView
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
 
-        //stackLayout.Children.Add(new PostDisplay(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Id == report.PostId).ToArray()[0]));
-
+        // stackLayout.Children.Add(new PostDisplay(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Id == report.PostId).ToArray()[0]));
         var reportedUserNameStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportedUserNameLabel = new Label { Text = "Reported User Name: ", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
         TextPost post = ApplicationState.Get().TextPosts.GetAll().Where(post => post.Id == report.PostId).ToArray()[0];
@@ -90,5 +89,4 @@ public partial class ReportDisplay : ContentView
     {
         // Handle Dismiss button click
     }
-
 }

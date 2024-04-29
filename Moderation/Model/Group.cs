@@ -20,7 +20,7 @@ namespace Moderation.Model
             Description = description;
             Creator = creator;
             GroupEntryQuestions = new();
-            Roles = new();
+            Roles = new ();
             GroupMembers = [];
             var arrayOfAllPermissions = Enum.GetValues(typeof(Permission));
             var listOfAllPermissions = new List<Permission>(arrayOfAllPermissions.Cast<Permission>());

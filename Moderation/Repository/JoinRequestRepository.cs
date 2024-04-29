@@ -10,8 +10,12 @@ namespace Moderation.Repository
 {
     public class JoinRequestRepository : Repository<JoinRequest>
     {
-        public JoinRequestRepository(Dictionary<Guid, JoinRequest> data) : base(data) { }
-        public JoinRequestRepository() : base() { }
+        public JoinRequestRepository(Dictionary<Guid, JoinRequest> data) : base(data)
+        {
+        }
+        public JoinRequestRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, JoinRequest value)
         {

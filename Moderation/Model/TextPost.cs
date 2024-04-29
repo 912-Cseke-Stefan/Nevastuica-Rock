@@ -12,7 +12,7 @@ namespace Moderation.Model
         public string Status { get; set; }
         public List<Award> Awards { get; set; }
         public bool IsDeleted { get; set; }
-        //public Guid GroupId { get; set; }
+        // public Guid GroupId { get; set; }
         public TextPost(string content, GroupUser author)
         {
             Id = Guid.NewGuid();
@@ -49,7 +49,7 @@ namespace Moderation.Model
             Content = content;
             Author = ApplicationState.Get().GroupUsers.Get(authorID) ?? throw new Exception("No author by that id");
             Score = 0;
-            Status = "";
+            Status = string.Empty;
             Awards = [];
             IsDeleted = false;
         }

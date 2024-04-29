@@ -67,7 +67,9 @@ public partial class GroupEntryForm : ContentPage
         foreach (var child in questionsLayout.Children)
         {
             if (child is not QuestionDisplay questionDisplay)
+            {
                 continue;
+            }
 
             string questionText = questionDisplay.GetQuestion();
             string response = questionDisplay.GetResponse();

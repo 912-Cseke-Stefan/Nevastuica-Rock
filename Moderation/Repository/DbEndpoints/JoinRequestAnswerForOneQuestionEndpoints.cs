@@ -7,8 +7,8 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestAnswerForOneQuestionEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, JoinRequestAnswerToOneQuestion> hardcodedAnswers = new()
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, JoinRequestAnswerToOneQuestion> HardcodedAnswers = new ()
         {
             {
                 Guid.Parse("A6006EE8-5D2C-4BB1-9761-334F59982987"),
@@ -17,14 +17,16 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),
                     "How are you?",
                     "Good. you?")
-            },{
+            },
+            {
                 Guid.Parse("13F979AC-F705-439C-AEBE-219DC37456FC"),
                 new JoinRequestAnswerToOneQuestion(
                     Guid.Parse("13F979AC-F705-439C-AEBE-219DC37456FC"),
                     Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),
                     "When are you free?",
                     "May 1st 2024")
-            },{
+            },
+            {
                 Guid.Parse("26D6137F-147C-4005-8DDE-16A26511540E"),
                 new JoinRequestAnswerToOneQuestion(
                     Guid.Parse("26D6137F-147C-4005-8DDE-16A26511540E"),
@@ -35,13 +37,12 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateQuestion(JoinRequestAnswerToOneQuestion question)
         {
-
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedAnswers.Add(question.Id, question);
+                HardcodedAnswers.Add(question.Id, question);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -50,7 +51,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedAnswers.Add(question.Id, question);
+                HardcodedAnswers.Add(question.Id, question);
                 return;
             }
             string sql = "INSERT INTO JoinRequestMessage VALUES (@JoinRequestId,@[Key], @[Value])";
@@ -64,9 +65,9 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedAnswers.Values];
+                return [.. HardcodedAnswers.Values];
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -75,7 +76,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedAnswers.Values];
+                return [.. HardcodedAnswers.Values];
             }
             List<JoinRequestAnswerToOneQuestion> allAnswersToAllQuestions = [];
 
@@ -94,12 +95,15 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedAnswers.ContainsKey(question.Id))
+                if (!HardcodedAnswers.ContainsKey(question.Id))
+                {
                     return;
-                hardcodedAnswers[question.Id] = question;
+                }
+
+                HardcodedAnswers[question.Id] = question;
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -108,9 +112,12 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedAnswers.ContainsKey(question.Id))
+                if (!HardcodedAnswers.ContainsKey(question.Id))
+                {
                     return;
-                hardcodedAnswers[question.Id] = question;
+                }
+
+                HardcodedAnswers[question.Id] = question;
                 return;
             }
             string sql = "UPDATE JoinRequestMessage SET [Value]=@[Value] WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key]";
@@ -124,10 +131,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedAnswers.Remove(question.Id);
+                HardcodedAnswers.Remove(question.Id);
                 return;
             }
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             try
             {
                 connection.Open();
@@ -136,7 +143,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedAnswers.Remove(question.Id); ;
+                HardcodedAnswers.Remove(question.Id);
                 return;
             }
             string sql = "DELETE FROM JoinRequestMessage WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key]";

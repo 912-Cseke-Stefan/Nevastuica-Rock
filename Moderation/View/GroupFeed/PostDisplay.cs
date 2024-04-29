@@ -8,39 +8,38 @@ namespace Moderation.View.GroupFeed;
 
 public class PostDisplay : ContentView
 {
-    private readonly IPost _post;
-    private readonly Picker _reactionsPicker;
-    private readonly Picker _awardsPicker;
+    private readonly IPost post;
+    private readonly Picker reactionsPicker;
+    private readonly Picker awardsPicker;
 
     public PostDisplay(IPost post)
     {
-        _post = post;
+        this.post = post;
 
         Button reactButton, commentButton, shareButton, awardButton;
 
         var reactions = new List<string> { "Like", "Dislike" };
 
-        _reactionsPicker = new Picker
+        reactionsPicker = new Picker
         {
             Title = "React",
             MinimumWidthRequest = 100,
             ItemsSource = reactions
         };
-        _reactionsPicker.SelectedIndexChanged += OnReactionsPicker_SelectedIndexChanged;
+        reactionsPicker.SelectedIndexChanged += OnReactionsPicker_SelectedIndexChanged;
 
         var awards = new List<string> { "Bronze", "Silver", "Gold" };
 
-        _awardsPicker = new Picker
+        awardsPicker = new Picker
         {
             Title = "Award",
             ItemsSource = awards
         };
-        _awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
+        awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
 
         FlexLayout buttonsLayout = new()
         {
             JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
-
         };
 
         reactButton = new Button
@@ -65,7 +64,7 @@ public class PostDisplay : ContentView
                 Text = "Comment",
                 Command = new Command(() =>
                 {
-                    Navigation.PushAsync(new CommentsFeedView(_post.Id));
+                    Navigation.PushAsync(new CommentsFeedView(this.post.Id));
                 })
             };
 
@@ -117,7 +116,7 @@ public class PostDisplay : ContentView
                             VerticalOptions = LayoutOptions.Center,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Start,
-                            Text = ApplicationState.Get().UserRepository.Get(post.Author.UserId)?.Username ?? "",
+                            Text = ApplicationState.Get().UserRepository.Get(post.Author.UserId)?.Username ?? string.Empty,
                             TextColor = Colors.White,
 
                             FontSize = 25,
@@ -139,8 +138,8 @@ public class PostDisplay : ContentView
                         }
                     },
 
-                new Border {
-
+                new Border
+                {
                         Content = new Label
                         {
                             HorizontalOptions = LayoutOptions.Start,
@@ -195,30 +194,32 @@ public class PostDisplay : ContentView
     private static bool UserHasPostCommentPermission(IPost post)
     {
         if (post == null)
+        {
             return false;
+        }
 
         Role? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
 
         if (role == null)
+        {
             return false;
+        }
 
         return role.Permissions.Contains(Permission.PostComment);
     }
 
     private void OnReactionsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        var selectedReaction = _reactionsPicker.SelectedItem.ToString();
+        var selectedReaction = reactionsPicker.SelectedItem.ToString();
 
         switch (selectedReaction)
         {
             case "Like":
                 // TODO
-
                 break;
 
             case "Dislike":
                 // TODO
-
                 break;
 
             default:
@@ -228,18 +229,16 @@ public class PostDisplay : ContentView
 
     private void OnAwardsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        var selectedAward = _awardsPicker.SelectedItem.ToString();
+        var selectedAward = awardsPicker.SelectedItem.ToString();
 
         switch (selectedAward)
         {
             case "Bronze":
                 // TODO
-
                 break;
 
             case "Silver":
                 // TODO
-
                 break;
 
             case "Gold":

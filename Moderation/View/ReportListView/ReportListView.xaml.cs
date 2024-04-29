@@ -10,8 +10,7 @@ public partial class ReportListView : ContentPage
 		//InitializeComponent();
 		this.postReports = postReports;
         CreateList();
-
-	}
+    }
 	private void CreateList()
 	{
         var stackLayout = new StackLayout();

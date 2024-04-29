@@ -5,7 +5,7 @@ namespace Moderation;
 
 public partial class LoginPage : ContentPage
 {
-    private readonly ApplicationState CurrentApp = ApplicationState.Get();
+    private readonly ApplicationState currentApp = ApplicationState.Get();
     public LoginPage()
     {
         InitializeComponent();
@@ -30,8 +30,8 @@ public partial class LoginPage : ContentPage
             {
                 throw new ArgumentException("Incorrect password");
             }
-            usernameEntry.Text = "";
-            passwordEntry.Text = "";
+            usernameEntry.Text = string.Empty;
+            passwordEntry.Text = string.Empty;
             CurrentSession.GetInstance().LogIn(currentUser);
             await Navigation.PushAsync(new GroupsView());
         }

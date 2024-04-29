@@ -10,9 +10,13 @@ namespace Moderation.Repository
 {
     internal class RoleRepository: Repository<Role>
     {
-        public RoleRepository(Dictionary<Guid, Role> data) : base(data) { }
+        public RoleRepository(Dictionary<Guid, Role> data) : base(data)
+        {
+        }
 
-        public RoleRepository() : base() { }
+        public RoleRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, Role role)
         {
