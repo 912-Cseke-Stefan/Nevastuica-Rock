@@ -1,7 +1,7 @@
 ﻿using Moderation.Entities;
 using Moderation.Repository;
 
-namespace Moderation.GroupEntryForm
+namespace Moderation.Model
 {
     public abstract class Question(string text) : IHasID
     {

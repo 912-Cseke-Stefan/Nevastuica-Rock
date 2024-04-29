@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using Moderation.Model;
 
 namespace Moderation.GroupEntryForm;
 
