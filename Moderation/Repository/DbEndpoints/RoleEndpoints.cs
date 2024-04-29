@@ -1,15 +1,15 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Role> HardcodedRoles = new()
+        private static readonly Dictionary<Guid, Role> HardcodedRoles = new ()
         {
             {
                 Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
@@ -41,7 +41,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Add(role.Id, role);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -55,7 +55,7 @@ namespace Moderation.DbEndpoints
             }
 
             string sql = "INSERT INTO UserRole VALUES (@RoleId,@Name)";
-            using (SqlCommand command = new(sql, connection))
+            using (SqlCommand command = new (sql, connection))
             {
                 command.Parameters.AddWithValue("@RoleId", role.Id);
                 command.Parameters.AddWithValue("@Name", role.Name);
@@ -64,7 +64,7 @@ namespace Moderation.DbEndpoints
             foreach (var permission in role.Permissions)
             {
                 sql = "INSERT INTO RolePermission VALUES (@RoleId,@Permission)";
-                using SqlCommand command = new(sql, connection);
+                using SqlCommand command = new (sql, connection);
                 command.Parameters.AddWithValue("@RoleId", role.Id);
                 command.Parameters.AddWithValue("@Permission", permission.ToString());
                 command.ExecuteNonQuery();
@@ -76,7 +76,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedRoles.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -90,18 +90,17 @@ namespace Moderation.DbEndpoints
             List<Role> roles = [];
             connection.Open();
             string sql = "SELECT RoleId, Name FROM UserRole";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Role role = new(
+                Role role = new (
                     reader.GetGuid(0),
-                    reader.GetString(1)
-                );
+                    reader.GetString(1));
 
                 // Fetch permissions for the current role from RolePermission table
                 string rolePermissionSql = "SELECT Permission FROM RolePermission WHERE RoleId = @RoleId";
-                using (SqlCommand rolePermissionCommand = new(rolePermissionSql, connection))
+                using (SqlCommand rolePermissionCommand = new (rolePermissionSql, connection))
                 {
                     rolePermissionCommand.Parameters.AddWithValue("@RoleId", role.Id);
 
@@ -130,7 +129,7 @@ namespace Moderation.DbEndpoints
                 toUpdate.Name = newName;
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -151,7 +150,7 @@ namespace Moderation.DbEndpoints
 
             string sql = "UPDATE UserRole SET Name = @NewName WHERE RoleId = @RoleId";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@NewName", newName);
             command.Parameters.AddWithValue("@RoleId", roleId);
 
@@ -188,7 +187,7 @@ namespace Moderation.DbEndpoints
             }
             // Delete existing permissions for the role
             string deleteSql = "DELETE FROM RolePermission WHERE RoleId = @RoleId";
-            using (SqlCommand deleteCommand = new(deleteSql, connection))
+            using (SqlCommand deleteCommand = new (deleteSql, connection))
             {
                 deleteCommand.Parameters.AddWithValue("@RoleId", roleId);
                 deleteCommand.ExecuteNonQuery();
@@ -212,7 +211,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Remove(roleId);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -226,7 +225,7 @@ namespace Moderation.DbEndpoints
             }
             // Delete associated permissions from RolePermission table first
             string deletePermissionSql = "DELETE FROM RolePermission WHERE RoleId = @RoleId";
-            using (SqlCommand deletePermissionCommand = new(deletePermissionSql, connection))
+            using (SqlCommand deletePermissionCommand = new (deletePermissionSql, connection))
             {
                 deletePermissionCommand.Parameters.AddWithValue("@RoleId", roleId);
                 deletePermissionCommand.ExecuteNonQuery();
@@ -234,7 +233,7 @@ namespace Moderation.DbEndpoints
 
             // Delete role from UserRole table after deleting associated permissions
             string deleteRoleSql = "DELETE FROM UserRole WHERE RoleId = @RoleId";
-            using SqlCommand deleteRoleCommand = new(deleteRoleSql, connection);
+            using SqlCommand deleteRoleCommand = new (deleteRoleSql, connection);
             deleteRoleCommand.Parameters.AddWithValue("@RoleId", roleId);
             deleteRoleCommand.ExecuteNonQuery();
         }

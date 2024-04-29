@@ -1,9 +1,4 @@
 ﻿using Moderation.GroupEntryForm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
@@ -16,9 +11,9 @@ namespace Moderation.Repository
         {
         }
 
-        //public IEnumerable<JoinRequestAnswerToOneQuestion> GetQuestionsByGroup(Guid groupId)
-        //{
+        // public IEnumerable<JoinRequestAnswerToOneQuestion> GetQuestionsByGroup(Guid groupId)
+        // {
         //    return data.Values.Where(q => q.GroupId == groupId);
-        //}
+        // }
     }
 }

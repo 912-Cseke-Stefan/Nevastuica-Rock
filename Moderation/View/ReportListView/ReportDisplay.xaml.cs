@@ -23,10 +23,10 @@ public partial class ReportDisplay : ContentView
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        GroupUser groupUser=ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id==report.UserId && guser.GroupId==report.GroupId).ToArray()[0];
-        User user=ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
+        GroupUser groupUser = ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id == report.UserId && guser.GroupId == report.GroupId).ToArray()[0];
+        User user = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
         var userIdValueLabel = new Label { Text = user.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
-        
+
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
@@ -35,7 +35,7 @@ public partial class ReportDisplay : ContentView
         var reportedUserNameStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportedUserNameLabel = new Label { Text = "Reported User Name: ", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
         TextPost post = ApplicationState.Get().TextPosts.GetAll().Where(post => post.Id == report.PostId).ToArray()[0];
-        GroupUser reportedGroupUser =ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id==post.Author.Id).ToArray()[0];
+        GroupUser reportedGroupUser = ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id == post.Author.Id).ToArray()[0];
         User reportedUser = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == reportedGroupUser.UserId).ToArray()[0];
         var reportedUserNameValue = new Label { Text = reportedUser.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 
@@ -49,9 +49,9 @@ public partial class ReportDisplay : ContentView
         reportedPostTextStackLayout.Children.Add(reportedPostLabel);
         reportedPostTextStackLayout.Children.Add(reportedPostText);
         stackLayout.Children.Add(reportedPostTextStackLayout);
-        var messageEntry = new Entry { Text = report.Message, Margin = new Thickness(0, 4, 0, 0), IsReadOnly=true };
+        var messageEntry = new Entry { Text = report.Message, Margin = new Thickness(0, 4, 0, 0), IsReadOnly = true };
         stackLayout.Children.Add(messageEntry);
-        
+
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
         var warningButton = new Button { Text = "Warning" };
         warningButton.Clicked += OnWarningClicked;

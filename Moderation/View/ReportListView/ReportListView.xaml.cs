@@ -7,10 +7,10 @@ public partial class ReportListView : ContentPage
 	private readonly IEnumerable<PostReport> postReports;
 	public ReportListView(IEnumerable<PostReport> postReports)
 	{
-		//InitializeComponent();
+		// InitializeComponent();
 		this.postReports = postReports;
         CreateList();
-    }
+	}
 	private void CreateList()
 	{
         var stackLayout = new StackLayout();

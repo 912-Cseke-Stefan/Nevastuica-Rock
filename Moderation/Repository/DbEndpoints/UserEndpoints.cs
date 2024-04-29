@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
@@ -10,7 +10,7 @@ namespace Moderation.DbEndpoints
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         /// <summary>
-        ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime, 
+        ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime,
         ///  use these hardcoded values:
         /// </summary>
         private static readonly List<User> HardcodedUsers = [new User(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"), "victor", "alabala"),
@@ -26,7 +26,7 @@ namespace Moderation.DbEndpoints
                 HardcodedUsers.Add(user);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -41,7 +41,7 @@ namespace Moderation.DbEndpoints
             string sql = "INSERT INTO [User] (Id, Username, Password) " +
                          "VALUES (@Id, @Username, @Password)";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", user.Id);
             command.Parameters.AddWithValue("@Username", user.Username);
             command.Parameters.AddWithValue("@Password", user.Password);
@@ -56,7 +56,7 @@ namespace Moderation.DbEndpoints
                 return HardcodedUsers;
             }
             List<User> users = [];
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -68,12 +68,12 @@ namespace Moderation.DbEndpoints
                 return HardcodedUsers;
             }
             string sql = "SELECT Id, Username, Password FROM [User]";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                User user = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
+                User user = new (reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                 users.Add(user);
             }
             return users;
@@ -96,7 +96,7 @@ namespace Moderation.DbEndpoints
             {
                 UpdateUserIfDBUnavailable(newValues);
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -112,7 +112,7 @@ namespace Moderation.DbEndpoints
                          "SET Username = @Username, Password = @Password" +
                          "WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Username", newValues.Username);
             command.Parameters.AddWithValue("@Password", newValues.Password);
             command.Parameters.AddWithValue("@Id", newValues.Id);
@@ -136,7 +136,7 @@ namespace Moderation.DbEndpoints
             {
                 DeleteUserIfDBUnavailable(id);
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -151,7 +151,7 @@ namespace Moderation.DbEndpoints
 
             string sql = "DELETE FROM User WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
             command.ExecuteNonQuery();

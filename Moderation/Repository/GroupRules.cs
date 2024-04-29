@@ -16,9 +16,9 @@ namespace Moderation.Repository
         {
         }
 
-        //public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)
-        //{
+        // public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)
+        // {
         //    return data.Values.Where(q => q.GroupId == groupId);
-        //}
+        // }
     }
 }

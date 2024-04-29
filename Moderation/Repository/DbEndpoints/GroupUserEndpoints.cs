@@ -1,8 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 namespace Moderation.DbEndpoints
 {
     public class GroupUserEndpoints
@@ -15,7 +15,7 @@ namespace Moderation.DbEndpoints
                 Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
                 new GroupUser(
                     Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
-                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),   // victor 
+                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),   // victor
                 /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"), // victor's study group
                 /*Post score*/          1,
                 /*Marketplace Score*/   1,
@@ -75,7 +75,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -90,7 +90,7 @@ namespace Moderation.DbEndpoints
             string sql = "INSERT INTO GroupUser (Id, Uid, GroupId, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId) " +
                          "VALUES (@Id, @Uid, @GroupId, @PostScore, @MarketplaceScore, @StatusRestriction, @StatusRestrictionDate, @StatusMessage, @RoleId)";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", user.Id);
             command.Parameters.AddWithValue("@Uid", user.UserId);
             command.Parameters.AddWithValue("@GroupId", user.GroupId);
@@ -109,7 +109,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedGroupUsers.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -130,7 +130,8 @@ namespace Moderation.DbEndpoints
             {
                 // UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
                 // UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
-                GroupUser user = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), new UserStatus(UserRestriction.None, DateTime.Now), reader.GetGuid(8));
+
+                GroupUser user = new (reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), new UserStatus(UserRestriction.None, DateTime.Now), reader.GetGuid(8));
                 users.Add(user);
             }
 
@@ -177,7 +178,7 @@ namespace Moderation.DbEndpoints
                          "RoleId = @RoleId" +
                          "WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Uid", user.UserId);
             command.Parameters.AddWithValue("@GroupId", user.GroupId);
             command.Parameters.AddWithValue("@PostScore", user.PostScore);
@@ -196,7 +197,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers.Remove(id);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -210,7 +211,7 @@ namespace Moderation.DbEndpoints
             }
             string sql = "DELETE FROM GroupUser WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
             command.ExecuteNonQuery();

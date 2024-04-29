@@ -19,7 +19,7 @@ public partial class GroupsView : ContentPage
         {
             ((StackLayout)Content).Children.Add(new View.SingleGroupView(group, CurrentSession.GetInstance().User));
         }
-        Button backButton = new()
+        Button backButton = new ()
         {
             Text = "Back",
             HorizontalOptions = LayoutOptions.Fill,

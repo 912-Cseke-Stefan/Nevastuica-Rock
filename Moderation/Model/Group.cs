@@ -19,12 +19,12 @@ namespace Moderation.Model
             Name = name;
             Description = description;
             Creator = creator;
-            GroupEntryQuestions = new();
+            GroupEntryQuestions = new ();
             Roles = new ();
             GroupMembers = [];
             var arrayOfAllPermissions = Enum.GetValues(typeof(Permission));
             var listOfAllPermissions = new List<Permission>(arrayOfAllPermissions.Cast<Permission>());
-            Role creatorRole = new("Creator", listOfAllPermissions);
+            Role creatorRole = new ("Creator", listOfAllPermissions);
             Roles.Add(creatorRole.Id, creatorRole);
             GroupMembers.Add(creator, creatorRole);
         }
@@ -34,12 +34,12 @@ namespace Moderation.Model
             Name = name;
             Description = description;
             Creator = creator;
-            GroupEntryQuestions = new();
-            Roles = new();
+            GroupEntryQuestions = new ();
+            Roles = new ();
             GroupMembers = [];
             var arrayOfAllPermissions = Enum.GetValues(typeof(Permission));
             var listOfAllPermissions = new List<Permission>(arrayOfAllPermissions.Cast<Permission>());
-            Role creatorRole = new("Creator", listOfAllPermissions);
+            Role creatorRole = new ("Creator", listOfAllPermissions);
             Roles.Add(creatorRole.Id, creatorRole);
             GroupMembers.Add(creator, creatorRole);
         }

@@ -42,7 +42,7 @@ public class SingleGroupView : ContentView
                 CurrentSession.GetInstance().LookIntoGroup(group);
                 TextPostRepository repo = ApplicationState.Get().TextPosts;
                 List<TextPost> posts = repo.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
-                GroupFeedView nextPage = new(posts);
+                GroupFeedView nextPage = new (posts);
                 Navigation.PushAsync(nextPage);
             }
             else

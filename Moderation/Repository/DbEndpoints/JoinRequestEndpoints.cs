@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
@@ -24,7 +24,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -38,7 +38,7 @@ namespace Moderation.DbEndpoints
             }
 
             string insertJoinRequestSql = "INSERT INTO JoinRequest (Id, UserId) VALUES (@Id, @UserId)";
-            using SqlCommand command = new(insertJoinRequestSql, connection);
+            using SqlCommand command = new (insertJoinRequestSql, connection);
             command.Parameters.AddWithValue("@Id", joinRequest.Id);
             command.Parameters.AddWithValue("@UserId", joinRequest.UserId);
             command.ExecuteNonQuery();
@@ -49,7 +49,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedJoinRequests.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -63,14 +63,13 @@ namespace Moderation.DbEndpoints
             List<JoinRequest> joinRequests = [];
             string sql = "SELECT Junior.Id, Junior.UserId " +
                          "FROM JoinRequest Junior ";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                JoinRequest joinRequest = new(
+                JoinRequest joinRequest = new (
                     reader.GetGuid(0),
-                    reader.GetGuid(1)
-                );
+                    reader.GetGuid(1));
                 joinRequests.Add(joinRequest);
             }
             return joinRequests;
@@ -83,7 +82,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -96,7 +95,7 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string deleteJoinRequestSql = "DELETE FROM JoinRequest WHERE Id = @Id";
-            using SqlCommand command = new(deleteJoinRequestSql, connection);
+            using SqlCommand command = new (deleteJoinRequestSql, connection);
             command.Parameters.AddWithValue("@Id", joinRequestId);
             command.ExecuteNonQuery();
         }

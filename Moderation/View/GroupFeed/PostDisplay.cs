@@ -37,7 +37,7 @@ public class PostDisplay : ContentView
         };
         awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
 
-        FlexLayout buttonsLayout = new()
+        FlexLayout buttonsLayout = new ()
         {
             JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
         };
@@ -101,7 +101,7 @@ public class PostDisplay : ContentView
             buttonsLayout.Children.Add(awardButton);
         }
 
-        StackLayout mainLayout = new()
+        StackLayout mainLayout = new ()
         {
             Padding = 25,
             Margin = new Thickness(25, 25, 25, 25),
@@ -172,7 +172,7 @@ public class PostDisplay : ContentView
             }
         };
 
-        Border border = new()
+        Border border = new ()
         {
             Content = mainLayout,
 

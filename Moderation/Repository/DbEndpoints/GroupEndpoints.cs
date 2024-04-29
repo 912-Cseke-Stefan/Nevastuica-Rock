@@ -1,8 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation.DbEndpoints
@@ -36,7 +36,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Add(group.Id, group);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -52,7 +52,7 @@ namespace Moderation.DbEndpoints
             string sql = "INSERT INTO [Group] (Id, Name, Description, Owner) " +
                          "VALUES (@Id, @Name, @Description, @Owner)";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", group.Id);
             command.Parameters.AddWithValue("@Name", group.Name);
             command.Parameters.AddWithValue("@Description", group.Description);
@@ -67,7 +67,7 @@ namespace Moderation.DbEndpoints
                 return [.. HardcodedGroups.Values];
             }
 
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -82,7 +82,7 @@ namespace Moderation.DbEndpoints
             List<Group> groups = [];
             string sql = "SELECT Id, Name, Description, Owner FROM [Group]";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -92,9 +92,9 @@ namespace Moderation.DbEndpoints
                     .UserRepository?.Get(userId)?
                     .Username // if anything is null along the way throw an exception:
                     ?? throw new Exception("No username by that id");
-                User user = new(userId, username);
+                User user = new (userId, username);
 
-                Group group = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
+                Group group = new (reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
                 groups.Add(group);
             }
             return groups;
@@ -116,7 +116,7 @@ namespace Moderation.DbEndpoints
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -132,7 +132,7 @@ namespace Moderation.DbEndpoints
                          "SET Name = @Name, Description = @Description, Owner = @Owner" +
                          "WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Name", group.Name);
             command.Parameters.AddWithValue("@Description", group.Description);
             command.Parameters.AddWithValue("@Owner", group.Creator.Id);
@@ -146,7 +146,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Remove(id);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -161,7 +161,7 @@ namespace Moderation.DbEndpoints
 
             string sql = "DELETE FROM Group WHERE Id = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", id);
 
             command.ExecuteNonQuery();

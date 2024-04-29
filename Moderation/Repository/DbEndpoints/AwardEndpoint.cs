@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
@@ -16,7 +16,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Add(award.Id, award);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -30,9 +30,9 @@ namespace Moderation.DbEndpoints
             }
 
             string sql = "INSERT INTO Award VALUES (@Id,@Type)";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", award.Id);
-            command.Parameters.AddWithValue("@Type", award.awardType.ToString());
+            command.Parameters.AddWithValue("@Type", award.AwardTypeObj.ToString());
             command.ExecuteNonQuery();
         }
         public static List<Award> ReadAwards()
@@ -41,7 +41,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAwards.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -54,14 +54,14 @@ namespace Moderation.DbEndpoints
             }
             List<Award> awards = [];
             string sql = "SELECT * FROM Award";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Award award = new()
+                Award award = new ()
                 {
                     Id = reader.GetGuid(0),
-                    awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)),
+                    AwardTypeObj = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)),
                 };
                 awards.Add(award);
             }
@@ -79,7 +79,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards[award.Id] = award;
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -97,9 +97,9 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string sql = "UPDATE Award SET Type=@T WHERE AwardId=@Id";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", award.Id);
-            command.Parameters.AddWithValue("@T", award.awardType.ToString());
+            command.Parameters.AddWithValue("@T", award.AwardTypeObj.ToString());
             command.ExecuteNonQuery();
         }
         public static void DeleteAward(Guid id)
@@ -109,7 +109,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Remove(id);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (connectionString);
             try
             {
                 connection.Open();
@@ -122,7 +122,7 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string sql = "DELETE FROM Award WHERE AwardId=@id";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
         }

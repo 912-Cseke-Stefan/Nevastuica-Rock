@@ -8,7 +8,7 @@ public partial class JoinRequestListView : ContentPage
 	public JoinRequestListView(IEnumerable<JoinRequest> joinRequests)
 	{
 		this.joinRequests = joinRequests;
-		//InitializeComponeknt();
+		// InitializeComponeknt();
 		CreateList();
 	}
 	private void CreateList()

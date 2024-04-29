@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
@@ -42,7 +42,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Add(question.Id, question);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -55,7 +55,7 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string sql = "INSERT INTO JoinRequestMessage VALUES (@JoinRequestId,@[Key], @[Value])";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
             command.Parameters.AddWithValue("@[Key]", question.QuestionText);
             command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
@@ -67,7 +67,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAnswers.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -81,11 +81,11 @@ namespace Moderation.DbEndpoints
             List<JoinRequestAnswerToOneQuestion> allAnswersToAllQuestions = [];
 
             string sql = "SELECT * FROM JoinRequestMessage";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                JoinRequestAnswerToOneQuestion qAndA = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
+                JoinRequestAnswerToOneQuestion qAndA = new (reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                 allAnswersToAllQuestions.Add(qAndA);
             }
 
@@ -103,7 +103,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers[question.Id] = question;
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -121,7 +121,7 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string sql = "UPDATE JoinRequestMessage SET [Value]=@[Value] WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key]";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
             command.Parameters.AddWithValue("@[Key]", question.QuestionText);
             command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
@@ -134,7 +134,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Remove(question.Id);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -147,7 +147,7 @@ namespace Moderation.DbEndpoints
                 return;
             }
             string sql = "DELETE FROM JoinRequestMessage WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key]";
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
             command.Parameters.AddWithValue("@[Key]", question.QuestionText);
             command.ExecuteNonQuery();

@@ -1,15 +1,15 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class TextPostEndpoints
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, TextPost> HardcodedPosts = new()
+        private static readonly Dictionary<Guid, TextPost> HardcodedPosts = new ()
         {
             {
                 Guid.Parse("2077F417-CB31-4728-B5BB-3AA57239BBCD"),
@@ -39,7 +39,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts.Add(textPost.Id, textPost);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -55,7 +55,7 @@ namespace Moderation.DbEndpoints
             string insertPostSql = "INSERT INTO Post (PostId, Content, UserId, Score, Status, IsDeleted, GroupId) " +
                                    "VALUES (@Id, @Content, @UserId, @Score, @Status, @IsDeleted, @GroupId)";
 
-            using (SqlCommand command = new(insertPostSql, connection))
+            using (SqlCommand command = new (insertPostSql, connection))
             {
                 command.Parameters.AddWithValue("@Id", textPost.Id);
                 command.Parameters.AddWithValue("@Content", textPost.Content);
@@ -72,7 +72,7 @@ namespace Moderation.DbEndpoints
             foreach (Award award in textPost.Awards)
             {
                 string insertPostAwardSql = "INSERT INTO PostAward (AwardId, Id) VALUES (@AwardId, @Id)";
-                using SqlCommand awardCommand = new(insertPostAwardSql, connection);
+                using SqlCommand awardCommand = new (insertPostAwardSql, connection);
                 awardCommand.Parameters.AddWithValue("@AwardId", award.Id);
                 awardCommand.Parameters.AddWithValue("@Id", textPost.Id);
                 awardCommand.ExecuteNonQuery();
@@ -84,7 +84,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedPosts.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -102,7 +102,7 @@ namespace Moderation.DbEndpoints
                          "FROM Post p " +
                          "INNER JOIN GroupUser u ON p.UserId = u.Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -130,7 +130,7 @@ namespace Moderation.DbEndpoints
             {
                 return [];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -148,14 +148,14 @@ namespace Moderation.DbEndpoints
                          "INNER JOIN PostAward pa ON a.AwardId = pa.AwardId " +
                          "WHERE pa.PostId = @Id";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@Id", postId);
 
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 Guid awardId = reader.GetGuid(0);
-                Award award = new() { Id = awardId, awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
+                Award award = new () { Id = awardId, AwardTypeObj = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
                 awards.Add(award);
             }
 
@@ -168,7 +168,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts.Remove(postId);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -183,7 +183,7 @@ namespace Moderation.DbEndpoints
 
             // Delete from PostAward table first
             string deletePostAwardSql = "DELETE FROM PostAward WHERE Id = @Id";
-            using (SqlCommand command = new(deletePostAwardSql, connection))
+            using (SqlCommand command = new (deletePostAwardSql, connection))
             {
                 command.Parameters.AddWithValue("@Id", postId);
                 command.ExecuteNonQuery();
@@ -191,7 +191,7 @@ namespace Moderation.DbEndpoints
 
             // Delete from Post table
             string deletePostSql = "DELETE FROM Post WHERE PostId = @Id";
-            using (SqlCommand command = new(deletePostSql, connection))
+            using (SqlCommand command = new (deletePostSql, connection))
             {
                 command.Parameters.AddWithValue("@Id", postId);
                 command.ExecuteNonQuery();
@@ -209,7 +209,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts[textPost.Id] = textPost;
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -235,7 +235,7 @@ namespace Moderation.DbEndpoints
                                    "GroupId = @GroupId " +
                                    "WHERE PostId = @Id";
 
-            using SqlCommand command = new(updatePostSql, connection);
+            using SqlCommand command = new (updatePostSql, connection);
             command.Parameters.AddWithValue("@Id", textPost.Id);
             command.Parameters.AddWithValue("@Content", textPost.Content);
             command.Parameters.AddWithValue("@UserId", textPost.Author.Id);

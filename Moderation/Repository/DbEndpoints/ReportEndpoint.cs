@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Configuration;
+using Microsoft.Data.SqlClient;
 using Moderation.Model;
 using Moderation.Serivce;
-using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
@@ -15,7 +15,7 @@ namespace Moderation.DbEndpoints
                 new PostReport(Guid.Parse("AA0B1530-2AAF-489B-AFAB-56EA4F95980B"),
                     Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), // The Reporter
                     Guid.Parse("EC492AE1-D795-442E-9F64-88DC19CA8F6E"), // The post
-                    "This is not a nice post" ,
+                    "This is not a nice post",
                     Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")) // The Group
             },
             {
@@ -24,7 +24,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), // The Reporter
                     Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"), // The post
                     "This is even worse!" ,
-                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"))  // The Group
+                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")) // The Group
             }
         };
         public static void CreatePostReport(PostReport postReport)
@@ -34,7 +34,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -50,7 +50,7 @@ namespace Moderation.DbEndpoints
             string sql = "INSERT INTO Report (ReportId, UserId, PostId, Message, GroupId) " +
                          "VALUES (@ReportId, @UserId, @PostId, @Message, @GroupId)";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
             command.Parameters.AddWithValue("@PostId", postReport.PostId);
@@ -65,7 +65,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedReports.Values];
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -80,12 +80,12 @@ namespace Moderation.DbEndpoints
 
             string sql = "SELECT ReportId, UserId, PostId, Message, GroupId FROM Report";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetString(3), reader.GetGuid(4));
+                PostReport postReport = new (reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetString(3), reader.GetGuid(4));
                 postReports.Add(postReport);
             }
 
@@ -99,7 +99,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports.Remove(reportId);
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -114,7 +114,7 @@ namespace Moderation.DbEndpoints
 
             string sql = "DELETE FROM Report WHERE ReportId = @ReportId";
 
-            using SqlCommand command = new(sql, connection);
+            using SqlCommand command = new (sql, connection);
             command.Parameters.AddWithValue("@ReportId", reportId);
 
             command.ExecuteNonQuery();
@@ -132,7 +132,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports[id] = postReport;
                 return;
             }
-            using SqlConnection connection = new(ConnectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -156,7 +156,7 @@ namespace Moderation.DbEndpoints
                                       $"GroupId = {postReport.GroupId}" +
                                       $"WHERE ReportId = {id}";
 
-            using SqlCommand command = new(sqlCommandString, connection);
+            using SqlCommand command = new (sqlCommandString, connection);
 
             command.ExecuteNonQuery();
         }
