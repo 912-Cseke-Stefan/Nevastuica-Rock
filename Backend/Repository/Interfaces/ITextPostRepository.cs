@@ -1,7 +1,7 @@
 ﻿using Moderation.Entities;
 using Moderation.Model;
 
-namespace Moderation.Repository.Interfaces
+namespace Backend.Repository.Interfaces
 {
     internal interface ITextPostRepository : IRepository<TextPost>
     {

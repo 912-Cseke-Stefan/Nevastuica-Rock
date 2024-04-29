@@ -1,7 +1,7 @@
 ﻿using Moderation.Entities;
 
 
-namespace Moderation.Repository.Interfaces
+namespace Backend.Repository.Interfaces
 {
     internal interface IUserRepository : IRepository<User>
     {

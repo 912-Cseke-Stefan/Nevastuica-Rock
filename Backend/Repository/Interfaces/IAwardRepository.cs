@@ -1,6 +1,6 @@
 ﻿using Moderation.Entities;
 
-namespace Moderation.Repository.Interfaces
+namespace Backend.Repository.Interfaces
 {
     public interface IAwardRepository: IRepository<Award>
     {
