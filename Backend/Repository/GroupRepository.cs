@@ -7,10 +7,10 @@ namespace Moderation.Repository
 {
     public class GroupRepository : IGroupRepository
     {
-        protected readonly Dictionary<Guid, Group> data;
+        protected readonly Dictionary<Guid, Group> Data;
         public GroupRepository(Dictionary<Guid, Group> data)
         {
-            this.data = data;
+            this.Data = data;
         }
 
         public GroupRepository() : base()
@@ -25,12 +25,12 @@ namespace Moderation.Repository
 
         public bool Contains(Guid key)
         {
-            return GroupEndpoints.ReadAllGroups().Exists(u => u.Id == key);
+            return GroupEndpoints.ReadAllGroups().Exists(group => group.Id == key);
         }
 
         public Group? Get(Guid key)
         {
-            return GroupEndpoints.ReadAllGroups().Find(u => u.Id == key);
+            return GroupEndpoints.ReadAllGroups().Find(group => group.Id == key);
         }
 
         public IEnumerable<Group> GetAll()
@@ -51,7 +51,7 @@ namespace Moderation.Repository
         }
         public Guid? GetGuidByName(string name)
         {
-            return GroupEndpoints.ReadAllGroups().Find(u => u.Name == name)?.Id;
+            return GroupEndpoints.ReadAllGroups().Find(group => group.Name == name)?.Id;
         }
     }
 }
