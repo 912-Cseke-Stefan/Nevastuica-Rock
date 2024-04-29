@@ -7,9 +7,10 @@ namespace Moderation.Repository
 {
     public class GroupRepository : IGroupRepository
     {
-        protected readonly Dictionary<Guid, Award> data;
+        protected readonly Dictionary<Guid, Group> data;
         public GroupRepository(Dictionary<Guid, Group> data)
         {
+            this.data = data;
         }
 
         public GroupRepository() : base()

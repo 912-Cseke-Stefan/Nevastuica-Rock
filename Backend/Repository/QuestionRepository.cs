@@ -9,6 +9,7 @@ namespace Moderation.Repository
         protected readonly Dictionary<Guid, Question> data;
         public QuestionRepository(Dictionary<Guid, Question> data)
         {
+            this.data = data;
         }
         public QuestionRepository() : base()
         {

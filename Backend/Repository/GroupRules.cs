@@ -1,4 +1,5 @@
 ﻿using Backend.Repository.Interfaces;
+using Moderation.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,8 +11,10 @@ namespace Moderation.Repository
 {
     public class GroupRules : IGroupRules
     {
-        public GroupRules(Dictionary<Guid, Model.Rule> data)
+        protected readonly Dictionary<Guid, Rule> data;
+        public GroupRules(Dictionary<Guid, Rule> data)
         {
+            this.data = data;
         }
         public GroupRules() : base()
         {
