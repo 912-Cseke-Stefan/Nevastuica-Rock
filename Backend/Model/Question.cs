@@ -1,5 +1,4 @@
 ﻿using Moderation.Entities;
-using Moderation.Repository;
 
 namespace Moderation.Model
 {
