@@ -1,27 +1,31 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
+using Moderation.Model;
 
 namespace Moderation.Repository
 {
-    public class GroupUserRepository : Repository<GroupUser>
+    public class GroupUserRepository : IGroupUserRepository
     {
-        public GroupUserRepository(Dictionary<Guid, GroupUser> data) : base(data)
+        protected readonly Dictionary<Guid, GroupUser> data;
+        public GroupUserRepository(Dictionary<Guid, GroupUser> data)
         {
+            this.data = data;
         }
         public GroupUserRepository() : base()
         {
         }
-        public override bool Add(Guid key, GroupUser value)
+        public bool Add(Guid key, GroupUser value)
         {
             GroupUserEndpoints.CreateGroupUser(value);
             return true;
         }
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return GroupUserEndpoints.ReadAllGroupUsers().Exists(u => u.Id == key);
         }
 
-        public override GroupUser? Get(Guid key)
+        public GroupUser? Get(Guid key)
         {
             return GroupUserEndpoints.ReadAllGroupUsers().Find(u => u.Id == key);
         }
@@ -31,17 +35,17 @@ namespace Moderation.Repository
             return GroupUserEndpoints.ReadAllGroupUsers().Find(u => u.UserId == userId && u.GroupId == groupId);
         }
 
-        public override IEnumerable<GroupUser> GetAll()
+        public IEnumerable<GroupUser> GetAll()
         {
             return GroupUserEndpoints.ReadAllGroupUsers();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             GroupUserEndpoints.DeleteGroupUser(key);
             return true;
         }
-        public override bool Update(Guid key, GroupUser value)
+        public bool Update(Guid key, GroupUser value)
         {
             GroupUserEndpoints.UpdateGroupUser(value);
             return true;

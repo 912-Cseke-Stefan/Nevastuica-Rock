@@ -1,39 +1,42 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
 
 namespace Moderation.Repository
 {
-    public class JoinRequestRepository : Repository<JoinRequest>
+    public class JoinRequestRepository : IJoinRequestRepository
     {
-        public JoinRequestRepository(Dictionary<Guid, JoinRequest> data) : base(data)
+        protected readonly Dictionary<Guid, JoinRequest> data;
+        public JoinRequestRepository(Dictionary<Guid, JoinRequest> data)
         {
+            this.data = data;
         }
         public JoinRequestRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, JoinRequest value)
+        public bool Add(Guid key, JoinRequest value)
         {
             JoinRequestEndpoints.CreateJoinRequest(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return JoinRequestEndpoints.ReadAllJoinRequests().Exists(a => a.Id == key);
         }
 
-        public override JoinRequest? Get(Guid key)
+        public JoinRequest? Get(Guid key)
         {
             return JoinRequestEndpoints.ReadAllJoinRequests().Find(a => a.Id == key);
         }
 
-        public override IEnumerable<JoinRequest> GetAll()
+        public IEnumerable<JoinRequest> GetAll()
         {
             return JoinRequestEndpoints.ReadAllJoinRequests();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             JoinRequestEndpoints.DeleteJoinRequest(key);
             return true;

@@ -1,46 +1,49 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
 
 namespace Moderation.Repository
 {
-    public class RoleRepository : Repository<Role>
+    public class RoleRepository : IRoleRepository
     {
-        public RoleRepository(Dictionary<Guid, Role> data) : base(data)
+        protected readonly Dictionary<Guid, Role> data;
+        public RoleRepository(Dictionary<Guid, Role> data)
         {
+            this.data = data;
         }
 
         public RoleRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, Role role)
+        public bool Add(Guid key, Role role)
         {
             RoleEndpoints.CreateRole(role);
             return true;
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             RoleEndpoints.DeleteRole(key);
             return true;
         }
 
-        public override Role? Get(Guid key)
+        public Role? Get(Guid key)
         {
             return RoleEndpoints.ReadRole().Find((role) => role.Id == key);
         }
 
-        public override IEnumerable<Role> GetAll()
+        public IEnumerable<Role> GetAll()
         {
             return RoleEndpoints.ReadRole();
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return RoleEndpoints.ReadRole().Exists((role) => role.Id == key);
         }
 
-        public override bool Update(Guid key, Role value)
+        public bool Update(Guid key, Role value)
         {
             RoleEndpoints.UpdateRoleName(key, value.Name);
             RoleEndpoints.UpdateRolePermissions(key, value.Permissions);

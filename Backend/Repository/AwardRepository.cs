@@ -1,12 +1,15 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
 
 namespace Moderation.Repository
 {
-    public class AwardRepository : Repository<Award>
+    public class AwardRepository : IRepository<Award>
     {
-        public AwardRepository(Dictionary<Guid, Award> data) : base(data)
+        protected readonly Dictionary<Guid, Award> data;
+        public AwardRepository(Dictionary<Guid, Award> data)
         {
+            this.data = data;
         }
         public AwardRepository() : base()
         {

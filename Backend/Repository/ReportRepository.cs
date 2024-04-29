@@ -1,46 +1,49 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.Model;
 
 namespace Moderation.Repository
 {
-    public class ReportRepository : Repository<PostReport>
+    public class ReportRepository : IReportRepository
     {
-        public ReportRepository(Dictionary<Guid, PostReport> data) : base(data)
+        protected readonly Dictionary<Guid, PostReport> data;
+        public ReportRepository(Dictionary<Guid, PostReport> data)
         {
+            this.data = data;
         }
         public ReportRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, PostReport value)
+        public bool Add(Guid key, PostReport value)
         {
             ReportEndpoint.CreatePostReport(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return ReportEndpoint.ReadAllPostReports().Exists(r => r.Id == key);
         }
 
-        public override PostReport? Get(Guid key)
+        public PostReport? Get(Guid key)
         {
             return ReportEndpoint.ReadAllPostReports().Find(r => r.Id == key);
         }
 
-        public override IEnumerable<PostReport> GetAll()
+        public IEnumerable<PostReport> GetAll()
         {
             return ReportEndpoint.ReadAllPostReports();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             ReportEndpoint.DeletePostReport(key);
             return true;
         }
 
-        public override bool Update(Guid key, PostReport value)
+        public bool Update(Guid key, PostReport value)
         {
             ReportEndpoint.UpdatePostReport(key, value);
             return true;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
-    public class GroupRules : Repository<Model.Rule>
+    public class GroupRules : IGroupRules
     {
-        public GroupRules(Dictionary<Guid, Model.Rule> data) : base(data)
+        public GroupRules(Dictionary<Guid, Model.Rule> data)
         {
         }
         public GroupRules() : base()
