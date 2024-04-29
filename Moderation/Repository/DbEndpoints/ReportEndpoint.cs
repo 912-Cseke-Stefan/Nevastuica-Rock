@@ -7,8 +7,8 @@ namespace Moderation.DbEndpoints
 {
     public class ReportEndpoint
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, PostReport> hardcodedReports = new ()
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, PostReport> HardcodedReports = new()
         {
             {
                 Guid.Parse("AA0B1530-2AAF-489B-AFAB-56EA4F95980B"),
@@ -29,13 +29,12 @@ namespace Moderation.DbEndpoints
         };
         public static void CreatePostReport(PostReport postReport)
         {
-
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedReports.Add(postReport.Id, postReport);
+                HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -44,7 +43,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedReports.Add(postReport.Id, postReport);
+                HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
 
@@ -64,9 +63,9 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedReports.Values];
+                return [.. HardcodedReports.Values];
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -75,10 +74,9 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedReports.Values];
+                return [.. HardcodedReports.Values];
             }
             List<PostReport> postReports = [];
-
 
             string sql = "SELECT ReportId, UserId, PostId, Message, GroupId FROM Report";
 
@@ -91,7 +89,6 @@ namespace Moderation.DbEndpoints
                 postReports.Add(postReport);
             }
 
-
             return postReports;
         }
 
@@ -99,10 +96,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedReports.Remove(reportId);
+                HardcodedReports.Remove(reportId);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -111,7 +108,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedReports.Remove(reportId);
+                HardcodedReports.Remove(reportId);
                 return;
             }
 
@@ -123,16 +120,19 @@ namespace Moderation.DbEndpoints
             command.ExecuteNonQuery();
         }
 
-        public static void UpdatePostReport(Guid Id, PostReport postReport)
+        public static void UpdatePostReport(Guid id, PostReport postReport)
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedReports.ContainsKey(Id))
+                if (!HardcodedReports.ContainsKey(id))
+                {
                     return;
-                hardcodedReports[Id] = postReport;
+                }
+
+                HardcodedReports[id] = postReport;
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -141,9 +141,12 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedReports.ContainsKey(Id))
+                if (!HardcodedReports.ContainsKey(id))
+                {
                     return;
-                hardcodedReports[Id] = postReport;
+                }
+
+                HardcodedReports[id] = postReport;
                 return;
             }
             string sqlCommandString = "UPDATE Report" +
@@ -151,7 +154,7 @@ namespace Moderation.DbEndpoints
                                       $"PostId = {postReport.PostId}," +
                                       $"Message = {postReport.Message}," +
                                       $"GroupId = {postReport.GroupId}" +
-                                      $"WHERE ReportId = {Id}";
+                                      $"WHERE ReportId = {id}";
 
             using SqlCommand command = new (sqlCommandString, connection);
 

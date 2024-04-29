@@ -13,7 +13,10 @@ public class SingleGroupView : ContentView
     public SingleGroupView(Group group, User? user)
     {
         if (user == null)
+        {
             return;
+        }
+
         var userIsInGroup = group.Creator.Id == user.Id;
         var label = new Label
         {
@@ -85,7 +88,8 @@ public class SingleGroupView : ContentView
                 Margin = 5,
                 Padding = 5,
                 HorizontalOptions = LayoutOptions.Fill,
-                Children = {
+                Children =
+                {
                 label,
                 viewOrJoinButton,
                 reportButton,
@@ -100,12 +104,12 @@ public class SingleGroupView : ContentView
                 Margin = 5,
                 Padding = 5,
                 HorizontalOptions = LayoutOptions.Fill,
-                Children = {
+                Children =
+                {
                 label,
                 viewOrJoinButton,
             }
             };
         }
-
     }
 }

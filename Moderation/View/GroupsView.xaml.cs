@@ -1,4 +1,3 @@
-
 using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
 using Moderation.Serivce;
@@ -25,7 +24,11 @@ public partial class GroupsView : ContentPage
             Text = "Back",
             HorizontalOptions = LayoutOptions.Fill,
         };
-        backButton.Clicked += (s, e) => { CurrentSession.GetInstance().LogOut(); Navigation.PopAsync(); };
+        backButton.Clicked += (s, e) =>
+        {
+            CurrentSession.GetInstance().LogOut();
+            Navigation.PopAsync();
+        };
         ((StackLayout)Content).Children.Add(backButton);
     }
 }

@@ -8,8 +8,8 @@ namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Role> hardcodedRoles = new ()
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, Role> HardcodedRoles = new ()
         {
             {
                 Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
@@ -38,10 +38,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedRoles.Add(role.Id, role);
+                HardcodedRoles.Add(role.Id, role);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -50,7 +50,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedRoles.Add(role.Id, role);
+                HardcodedRoles.Add(role.Id, role);
                 return;
             }
 
@@ -74,9 +74,9 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedRoles.Values];
+                return [.. HardcodedRoles.Values];
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -85,7 +85,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedRoles.Values];
+                return [.. HardcodedRoles.Values];
             }
             List<Role> roles = [];
             connection.Open();
@@ -121,12 +121,15 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                {
                     return;
+                }
+
                 toUpdate.Name = newName;
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -135,8 +138,11 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                {
                     return;
+                }
+
                 toUpdate.Name = newName;
                 return;
             }
@@ -154,12 +160,15 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                {
                     return;
+                }
+
                 toUpdate.Permissions = newPermissions;
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -168,8 +177,11 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                {
                     return;
+                }
+
                 toUpdate.Permissions = newPermissions;
                 return;
             }
@@ -196,10 +208,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedRoles.Remove(roleId);
+                HardcodedRoles.Remove(roleId);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -208,7 +220,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedRoles.Remove(roleId);
+                HardcodedRoles.Remove(roleId);
                 return;
             }
             // Delete associated permissions from RolePermission table first

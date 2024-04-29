@@ -7,13 +7,13 @@ namespace Moderation.DbEndpoints
 {
     public class UserEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         /// <summary>
         ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime,
         ///  use these hardcoded values:
         /// </summary>
-        private static readonly List<User> hardcodedUsers =[new User(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"), "victor", "alabala"),
+        private static readonly List<User> HardcodedUsers = [new User(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"), "victor", "alabala"),
                                                      new User(Guid.Parse("0825D1FD-C40B-4926-A128-2D924D564B3E"), "boti", "ababab"),
                                                      new User(Guid.Parse("E17FF7A1-95DF-4EAE-8A69-9B139CCD7CA8"), "norby", "norb"),
                                                      new User(Guid.Parse("E268B52E-DD82-4D86-AE17-9F8DE883BEFE"), "ioan", "neon"),
@@ -23,10 +23,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedUsers.Add(user);
+                HardcodedUsers.Add(user);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -35,7 +35,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedUsers.Add(user);
+                HardcodedUsers.Add(user);
                 return;
             }
             string sql = "INSERT INTO [User] (Id, Username, Password) " +
@@ -53,10 +53,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return hardcodedUsers;
+                return HardcodedUsers;
             }
             List<User> users = [];
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -65,7 +65,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return hardcodedUsers;
+                return HardcodedUsers;
             }
             string sql = "SELECT Id, Username, Password FROM [User]";
             using SqlCommand command = new (sql, connection);
@@ -73,7 +73,6 @@ namespace Moderation.DbEndpoints
 
             while (reader.Read())
             {
-
                 User user = new (reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                 users.Add(user);
             }
@@ -81,9 +80,12 @@ namespace Moderation.DbEndpoints
         }
         private static void UpdateUserIfDBUnavailable(User newValues)
         {
-            User? toUpdate = hardcodedUsers.Where(u => u.Id == newValues.Id).First();
+            User? toUpdate = HardcodedUsers.Where(u => u.Id == newValues.Id).First();
             if (toUpdate == null)
+            {
                 return;
+            }
+
             toUpdate.Username = newValues.Username;
             toUpdate.Password = newValues.Password;
             return;
@@ -94,7 +96,7 @@ namespace Moderation.DbEndpoints
             {
                 UpdateUserIfDBUnavailable(newValues);
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -119,10 +121,13 @@ namespace Moderation.DbEndpoints
         }
         private static void DeleteUserIfDBUnavailable(Guid id)
         {
-            User? toRemove = hardcodedUsers.Where(u => u.Id == id).First();
+            User? toRemove = HardcodedUsers.Where(u => u.Id == id).First();
             if (toRemove == null)
+            {
                 return;
-            hardcodedUsers.Remove(toRemove);
+            }
+
+            HardcodedUsers.Remove(toRemove);
             return;
         }
         public static void DeleteUser(Guid id)
@@ -131,7 +136,7 @@ namespace Moderation.DbEndpoints
             {
                 DeleteUserIfDBUnavailable(id);
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();

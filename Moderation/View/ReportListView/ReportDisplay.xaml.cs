@@ -89,5 +89,4 @@ public partial class ReportDisplay : ContentView
     {
         // Handle Dismiss button click
     }
-
 }

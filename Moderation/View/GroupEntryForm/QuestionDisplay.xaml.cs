@@ -27,16 +27,16 @@ public class TextQuestionDisplay(TextQuestion question) : QuestionDisplay(questi
 {
     protected override void CreateContent()
     {
-        var InputArea = new Editor();
-        ((StackLayout)Content).Children.Add(InputArea);
+        var inputArea = new Editor();
+        ((StackLayout)Content).Children.Add(inputArea);
     }
 
     public override string GetResponse()
     {
-        var BoxWithTextInputIndex = 1;
-        var MainComponentLayout = (StackLayout)Content;
-        var BoxWithTextInput = (Editor)MainComponentLayout.Children[BoxWithTextInputIndex];
-        return BoxWithTextInput.Text;
+        var boxWithTextInputIndex = 1;
+        var mainComponentLayout = (StackLayout)Content;
+        var boxWithTextInput = (Editor)mainComponentLayout.Children[boxWithTextInputIndex];
+        return boxWithTextInput.Text;
     }
 }
 
@@ -71,13 +71,13 @@ public class SliderQuestionDisplay(SliderQuestion question) : QuestionDisplay(qu
 
     public override string GetResponse()
     {
-        var GridIndexInMainLayout = 1;
-        var SliderIndex = 1;
-        var MainComponentLayout = (StackLayout)Content;
-        var Grid = (Grid)MainComponentLayout.Children[GridIndexInMainLayout];
-        var Slider = (Slider)Grid.Children[SliderIndex];
+        var gridIndexInMainLayout = 1;
+        var sliderIndex = 1;
+        var mainComponentLayout = (StackLayout)Content;
+        var grid = (Grid)mainComponentLayout.Children[gridIndexInMainLayout];
+        var slider = (Slider)grid.Children[sliderIndex];
 
-        return Slider.Value.ToString();
+        return slider.Value.ToString();
     }
 }
 public class RadioQuestionDisplay(RadioQuestion question) : QuestionDisplay(question)
@@ -105,7 +105,6 @@ public class RadioQuestionDisplay(RadioQuestion question) : QuestionDisplay(ques
                 .FirstOrDefault()
                 ?? "none";
     }
-
 }
 public class QuestionDisplayFactory
 {

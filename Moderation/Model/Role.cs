@@ -26,5 +26,4 @@ namespace Moderation.Entities
             Permissions = permissions;
         }
     }
-
 }

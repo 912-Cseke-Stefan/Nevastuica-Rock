@@ -9,8 +9,12 @@ namespace Moderation.Repository
 {
     public class GroupRules : Repository<Model.Rule>
     {
-        public GroupRules(Dictionary<Guid, Model.Rule> data) : base(data) { }
-        public GroupRules() : base() { }
+        public GroupRules(Dictionary<Guid, Model.Rule> data) : base(data)
+        {
+        }
+        public GroupRules() : base()
+        {
+        }
 
         // public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)
         // {

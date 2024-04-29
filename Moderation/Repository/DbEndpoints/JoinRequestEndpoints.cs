@@ -7,8 +7,8 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, JoinRequest> hardcodedJoinRequests = new ()
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new()
         {
             {
                 Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),
@@ -21,10 +21,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
+                HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -33,7 +33,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
+                HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
 
@@ -47,9 +47,9 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedJoinRequests.Values];
+                return [.. HardcodedJoinRequests.Values];
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -58,11 +58,9 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedJoinRequests.Values];
+                return [.. HardcodedJoinRequests.Values];
             }
             List<JoinRequest> joinRequests = [];
-
-
             string sql = "SELECT Junior.Id, Junior.UserId " +
                          "FROM JoinRequest Junior ";
             using SqlCommand command = new (sql, connection);
@@ -81,10 +79,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedJoinRequests.Remove(joinRequestId);
+                HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -93,7 +91,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedJoinRequests.Remove(joinRequestId);
+                HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
             string deleteJoinRequestSql = "DELETE FROM JoinRequest WHERE Id = @Id";

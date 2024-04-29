@@ -5,9 +5,13 @@ namespace Moderation.Repository
 {
     internal class GroupRepository : Repository<Group>
     {
-        public GroupRepository(Dictionary<Guid, Group> data) : base(data) { }
+        public GroupRepository(Dictionary<Guid, Group> data) : base(data)
+        {
+        }
 
-        public GroupRepository() : base() { }
+        public GroupRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, Group value)
         {

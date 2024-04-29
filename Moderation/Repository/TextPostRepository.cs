@@ -5,8 +5,12 @@ namespace Moderation.Repository
 {
     public class TextPostRepository : Repository<TextPost>
     {
-        public TextPostRepository(Dictionary<Guid, TextPost> data) : base(data) { }
-        public TextPostRepository() : base() { }
+        public TextPostRepository(Dictionary<Guid, TextPost> data) : base(data)
+        {
+        }
+        public TextPostRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, TextPost value)
         {

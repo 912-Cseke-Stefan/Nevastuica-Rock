@@ -5,8 +5,12 @@ namespace Moderation.Repository
 {
     public class AwardRepository : Repository<Award>
     {
-        public AwardRepository(Dictionary<Guid, Award> data) : base(data) { }
-        public AwardRepository() : base() { }
+        public AwardRepository(Dictionary<Guid, Award> data) : base(data)
+        {
+        }
+        public AwardRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, Award value)
         {

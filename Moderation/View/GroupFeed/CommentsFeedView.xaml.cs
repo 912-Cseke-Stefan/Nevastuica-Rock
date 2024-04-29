@@ -20,7 +20,7 @@ public partial class CommentsFeedView : ContentPage
 	{
 		Layout layout = new StackLayout();
         Group group = CurrentSession.GetInstance().Group ?? throw new Exception("Curret group does not exist");
-        IEnumerable<IPost> _comments = new List<TextPost>
+        IEnumerable<IPost> comments = new List<TextPost>
         {
             new ("Nice one.", new GroupUser(Guid.Parse("0478C96C-548B-427C-96A1-006291F50C7B"), group.Id), []),
             new ("Unbelievable.", new GroupUser(Guid.Parse("59B2E634-EA1E-48E1-9C9A-05E4ED8A8011"), group.Id), []),
@@ -29,7 +29,7 @@ public partial class CommentsFeedView : ContentPage
             new (".", new GroupUser(Guid.Parse("05647D11-F9C6-49DE-B5B5-1E072657F963"), group.Id), [])
         };
 
-        foreach (var comment in _comments)
+        foreach (var comment in comments)
         {
             layout.Children.Add(new View.GroupFeed.PostDisplay(comment));
         }

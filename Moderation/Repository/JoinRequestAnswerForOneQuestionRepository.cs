@@ -5,8 +5,12 @@ namespace Moderation.Repository
 {
     public class JoinRequestAnswerForOneQuestionRepository : Repository<JoinRequestAnswerToOneQuestion>
     {
-        public JoinRequestAnswerForOneQuestionRepository(Dictionary<Guid, JoinRequestAnswerToOneQuestion> data) : base(data) { }
-        public JoinRequestAnswerForOneQuestionRepository() : base() { }
+        public JoinRequestAnswerForOneQuestionRepository(Dictionary<Guid, JoinRequestAnswerToOneQuestion> data) : base(data)
+        {
+        }
+        public JoinRequestAnswerForOneQuestionRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, JoinRequestAnswerToOneQuestion value)
         {

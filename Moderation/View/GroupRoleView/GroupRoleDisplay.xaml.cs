@@ -7,7 +7,7 @@ namespace Moderation.GroupRoleView;
 public partial class GroupRoleDisplay : ContentPage
 {
     private Role role;
-    private CurrentSession CurrentSession = CurrentSession.GetInstance();
+    private CurrentSession currentSession = CurrentSession.GetInstance();
 
     public GroupRoleDisplay(Role role)
 	{
@@ -19,9 +19,9 @@ public partial class GroupRoleDisplay : ContentPage
     {
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 
-        if (CurrentSession != null && CurrentSession.Group != null)
+        if (currentSession != null && currentSession.Group != null)
         {
-            var currentGroup = CurrentSession.Group;
+            var currentGroup = currentSession.Group;
 
             if (currentGroup.Roles.Contains(role.Id))
             {

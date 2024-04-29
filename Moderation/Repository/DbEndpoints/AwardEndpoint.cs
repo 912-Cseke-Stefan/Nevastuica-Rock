@@ -7,13 +7,13 @@ namespace Moderation.DbEndpoints
 {
     public class AwardEndpoint
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Award> hardcodedAwards = [];
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, Award> HardcodedAwards = [];
         public static void CreateAward(Award award)
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedAwards.Add(award.Id, award);
+                HardcodedAwards.Add(award.Id, award);
                 return;
             }
             using SqlConnection connection = new (connectionString);
@@ -25,7 +25,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedAwards.Add(award.Id, award);
+                HardcodedAwards.Add(award.Id, award);
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedAwards.Values];
+                return [.. HardcodedAwards.Values];
             }
             using SqlConnection connection = new (connectionString);
             try
@@ -50,7 +50,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedAwards.Values];
+                return [.. HardcodedAwards.Values];
             }
             List<Award> awards = [];
             string sql = "SELECT * FROM Award";
@@ -62,7 +62,6 @@ namespace Moderation.DbEndpoints
                 {
                     Id = reader.GetGuid(0),
                     AwardTypeObj = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)),
-
                 };
                 awards.Add(award);
             }
@@ -72,9 +71,12 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedAwards.ContainsKey(award.Id))
+                if (!HardcodedAwards.ContainsKey(award.Id))
+                {
                     return;
-                hardcodedAwards[award.Id] = award;
+                }
+
+                HardcodedAwards[award.Id] = award;
                 return;
             }
             using SqlConnection connection = new (connectionString);
@@ -86,9 +88,12 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedAwards.ContainsKey(award.Id))
+                if (!HardcodedAwards.ContainsKey(award.Id))
+                {
                     return;
-                hardcodedAwards[award.Id] = award;
+                }
+
+                HardcodedAwards[award.Id] = award;
                 return;
             }
             string sql = "UPDATE Award SET Type=@T WHERE AwardId=@Id";
@@ -101,7 +106,7 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedAwards.Remove(id);
+                HardcodedAwards.Remove(id);
                 return;
             }
             using SqlConnection connection = new (connectionString);
@@ -113,7 +118,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedAwards.Remove(id);
+                HardcodedAwards.Remove(id);
                 return;
             }
             string sql = "DELETE FROM Award WHERE AwardId=@id";

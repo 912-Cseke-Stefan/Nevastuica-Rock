@@ -7,9 +7,9 @@ namespace Moderation.DbEndpoints
 {
     public class GroupUserEndpoints
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
-        private static readonly Dictionary<Guid, GroupUser> hardcodedGroupUsers = new ()
+        private static readonly Dictionary<Guid, GroupUser> HardcodedGroupUsers = new ()
         {
             {
                 Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
@@ -66,14 +66,13 @@ namespace Moderation.DbEndpoints
                 new UserStatus(UserRestriction.None, DateTime.Now),
                 /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3")) // member
             }
-
         };
 
         public static void CreateGroupUser(GroupUser user)
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedGroupUsers.Add(user.Id, user);
+                HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
             using SqlConnection connection = new (connectionString);
@@ -85,7 +84,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedGroupUsers.Add(user.Id, user);
+                HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
             string sql = "INSERT INTO GroupUser (Id, Uid, GroupId, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId) " +
@@ -108,7 +107,7 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                return [.. hardcodedGroupUsers.Values];
+                return [.. HardcodedGroupUsers.Values];
             }
             using SqlConnection connection = new (connectionString);
             try
@@ -119,10 +118,9 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                return [.. hardcodedGroupUsers.Values];
+                return [.. HardcodedGroupUsers.Values];
             }
-            List<GroupUser> users = [];
-
+            List<GroupUser> users =[];
 
             string sql = "SELECT Id, Uid, Groupid, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId FROM GroupUser";
 
@@ -135,7 +133,6 @@ namespace Moderation.DbEndpoints
 
                 GroupUser user = new (reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), new UserStatus(UserRestriction.None, DateTime.Now), reader.GetGuid(8));
                 users.Add(user);
-
             }
 
             return users;
@@ -144,12 +141,15 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedGroupUsers.ContainsKey(user.Id))
+                if (!HardcodedGroupUsers.ContainsKey(user.Id))
+                {
                     return;
-                hardcodedGroupUsers[user.Id] = user;
+                }
+
+                HardcodedGroupUsers[user.Id] = user;
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -158,9 +158,12 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedGroupUsers.ContainsKey(user.Id))
+                if (!HardcodedGroupUsers.ContainsKey(user.Id))
+                {
                     return;
-                hardcodedGroupUsers[user.Id] = user;
+                }
+
+                HardcodedGroupUsers[user.Id] = user;
                 return;
             }
 
@@ -191,10 +194,10 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                hardcodedGroupUsers.Remove(id);
+                HardcodedGroupUsers.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -203,7 +206,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                hardcodedGroupUsers.Remove(id);
+                HardcodedGroupUsers.Remove(id);
                 return;
             }
             string sql = "DELETE FROM GroupUser WHERE Id = @Id";

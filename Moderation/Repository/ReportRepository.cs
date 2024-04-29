@@ -6,8 +6,12 @@ namespace Moderation.Repository
 {
     public class ReportRepository : Repository<PostReport>
     {
-        public ReportRepository(Dictionary<Guid, PostReport> data) : base(data) { }
-        public ReportRepository() : base() { }
+        public ReportRepository(Dictionary<Guid, PostReport> data) : base(data)
+        {
+        }
+        public ReportRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, PostReport value)
         {

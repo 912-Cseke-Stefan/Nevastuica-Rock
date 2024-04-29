@@ -25,13 +25,10 @@ public partial class GroupRulesView : ContentPage
         Content = new ScrollView { Content = stackLayout };
     }
 
-
     private Button BackButton()
     {
         var button = new Button { Text = "Back", Margin = 4 };
         button.Clicked += (sender, e) => { Navigation.PopAsync(); };
         return button;
     }
-
-
 }

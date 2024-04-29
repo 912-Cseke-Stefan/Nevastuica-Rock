@@ -4,8 +4,12 @@ namespace Moderation.Repository
 {
     public class QuestionRepository : Repository<Question>
     {
-        public QuestionRepository(Dictionary<Guid, Question> data) : base(data) { }
-        public QuestionRepository() : base() { }
+        public QuestionRepository(Dictionary<Guid, Question> data) : base(data)
+        {
+        }
+        public QuestionRepository() : base()
+        {
+        }
 
         // public IEnumerable<JoinRequestAnswerToOneQuestion> GetQuestionsByGroup(Guid groupId)
         // {
