@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Entities;
 
-namespace Backend.Repository.Interfaces
+namespace Moderation.Repository.Interfaces
 {
-    internal interface IAwardRepository
+    public interface IAwardRepository: IRepository<Award>
     {
+        bool Add(Guid key, Award value);
+        bool Remove(Guid key);
+        Award? Get(Guid key);
+        IEnumerable<Award> GetAll();
+        bool Contains(Guid key);
+        bool Update(Guid key, Award value);
     }
 }

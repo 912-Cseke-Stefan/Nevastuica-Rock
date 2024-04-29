@@ -1,45 +1,49 @@
 ﻿using Moderation.DbEndpoints;
 using Moderation.Entities;
+using Moderation.Repository.Interfaces;
 
 namespace Moderation.Repository
 {
-    public class AwardRepository : Repository<Award>
+    public class AwardRepository : IAwardRepository
     {
-        public AwardRepository(Dictionary<Guid, Award> data) : base(data)
+        protected readonly Dictionary<Guid, Award> data;
+
+        public AwardRepository(Dictionary<Guid, Award> data)
         {
+            this.data = data;
         }
         public AwardRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, Award value)
+        public bool Add(Guid key, Award value)
         {
             AwardEndpoint.CreateAward(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return AwardEndpoint.ReadAwards().Exists(a => a.Id == key);
         }
 
-        public override Award? Get(Guid key)
+        public Award? Get(Guid key)
         {
             return AwardEndpoint.ReadAwards().Find(a => a.Id == key);
         }
 
-        public override IEnumerable<Award> GetAll()
+        public IEnumerable<Award> GetAll()
         {
             return AwardEndpoint.ReadAwards();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             AwardEndpoint.DeleteAward(key);
             return true;
         }
 
-        public override bool Update(Guid key, Award award)
+        public bool Update(Guid key, Award award)
         {
             AwardEndpoint.UpdateAward(award);
             return true;

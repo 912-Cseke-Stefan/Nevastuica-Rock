@@ -1,6 +1,6 @@
 ﻿using Moderation.Entities;
 
-namespace Backend.Repository.Interfaces
+namespace Moderation.Repository.Interfaces
 {
     public interface IRepository<T>
         where T : IHasID
