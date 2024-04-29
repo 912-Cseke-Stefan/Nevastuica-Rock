@@ -20,7 +20,7 @@ namespace Moderation.Serivce
         public ReportRepository Reports { get; } = new ();
         public RoleRepository Roles { get; } = new ();
         public TextPostRepository TextPosts { get; } = new ();
-        public bool DbConnectionIsAvailable { get; set; } = true;
+        public bool DbConnectionIsAvailable { get; set; } = false;
         static public ApplicationState Get()
         {
             instance ??= new ApplicationState();
