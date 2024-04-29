@@ -1,4 +1,4 @@
-﻿namespace Moderation.GroupEntryForm
+﻿namespace Moderation.Model
 {
     public class SliderQuestion(string text, int min, int max) : Question(text)
     {

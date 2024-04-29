@@ -1,4 +1,4 @@
-﻿namespace Moderation.GroupEntryForm
+﻿namespace Moderation.Model
 {
     public class RadioQuestion(string text, List<string> options) : Question(text)
     {

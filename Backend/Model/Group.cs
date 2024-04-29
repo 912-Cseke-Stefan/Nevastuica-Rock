@@ -1,6 +1,6 @@
 ﻿using Moderation.Entities;
 using Moderation.Repository;
-using Question = Moderation.GroupEntryForm.Question;
+using Question = Moderation.Model.Question;
 
 namespace Moderation.Model
 {

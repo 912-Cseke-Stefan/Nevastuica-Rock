@@ -4,7 +4,7 @@ using Moderation.Repository;
 
 namespace Moderation.Serivce
 {
-    internal class ApplicationState
+    public class ApplicationState
     {
         static private ApplicationState? instance;
         public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
