@@ -9,7 +9,7 @@ public partial class JoinRequestDisplay : ContentView
     public JoinRequestDisplay(JoinRequest joinRequest)
     {
         this.joinRequest = joinRequest;
-        //InitializeComponent();
+        // InitializeComponent();
         CreateView();
     }
     public void CreateView()

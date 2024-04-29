@@ -5,7 +5,9 @@ namespace Moderation.Repository
 {
     public class GroupUserRepository : Repository<GroupUser>
     {
-        public GroupUserRepository(Dictionary<Guid, GroupUser> data) : base(data) { }
+        public GroupUserRepository(Dictionary<Guid, GroupUser> data) : base(data)
+        {
+        }
         public GroupUserRepository() : base()
         {
         }

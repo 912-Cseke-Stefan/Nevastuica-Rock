@@ -197,7 +197,7 @@ namespace Moderation.DbEndpoints
             string insertSql = "INSERT INTO RolePermission (RoleId, Permission) VALUES (@RoleId, @Permission)";
             foreach (Permission permission in newPermissions)
             {
-                using SqlCommand insertCommand = new(insertSql, connection);
+                using SqlCommand insertCommand = new (insertSql, connection);
                 insertCommand.Parameters.AddWithValue("@RoleId", roleId);
                 insertCommand.Parameters.AddWithValue("@Permission", permission.ToString());
                 insertCommand.ExecuteNonQuery();

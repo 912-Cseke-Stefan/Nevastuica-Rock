@@ -8,7 +8,7 @@ namespace Moderation.DbEndpoints
     public class ReportEndpoint
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, PostReport> HardcodedReports = new()
+        private static readonly Dictionary<Guid, PostReport> HardcodedReports = new ()
         {
             {
                 Guid.Parse("AA0B1530-2AAF-489B-AFAB-56EA4F95980B"),
@@ -23,7 +23,7 @@ namespace Moderation.DbEndpoints
                 new PostReport(Guid.Parse("E59FACA6-8FFB-450B-8017-FF9F111E8A95"),
                     Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), // The Reporter
                     Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"), // The post
-                    "This is even worse!" ,
+                    "This is even worse!",
                     Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")) // The Group
             }
         };

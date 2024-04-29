@@ -8,7 +8,7 @@ namespace Moderation.DbEndpoints
     public class JoinRequestEndpoints
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new()
+        private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new ()
         {
             {
                 Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),

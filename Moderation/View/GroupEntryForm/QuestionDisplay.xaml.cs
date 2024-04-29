@@ -54,7 +54,7 @@ public class SliderQuestionDisplay(SliderQuestion question) : QuestionDisplay(qu
         var maxValueLabel = new Label { Text = sliderQuestion.Max.ToString(), HorizontalOptions = LayoutOptions.End };
 
         var grid = new Grid();
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); 
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
@@ -87,7 +87,7 @@ public class RadioQuestionDisplay(RadioQuestion question) : QuestionDisplay(ques
 #pragma warning disable CS9179 // Primary constructor parameter is shadowed by a member from base
         RadioQuestion? radioQuestion = question as RadioQuestion;
 #pragma warning restore CS9179 // Primary constructor parameter is shadowed by a member from base
-        //var OptionView = new RadioButtonGroup { }
+        // var OptionView = new RadioButtonGroup { }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         foreach (var option in radioQuestion?.Options)
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

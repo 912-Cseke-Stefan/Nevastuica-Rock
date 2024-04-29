@@ -3,7 +3,7 @@ using Moderation.Entities;
 
 namespace Moderation.Repository
 {
-    internal class RoleRepository: Repository<Role>
+    internal class RoleRepository : Repository<Role>
     {
         public RoleRepository(Dictionary<Guid, Role> data) : base(data)
         {

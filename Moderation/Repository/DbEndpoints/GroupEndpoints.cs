@@ -36,7 +36,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Add(group.Id, group);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -67,7 +67,7 @@ namespace Moderation.DbEndpoints
                 return [.. HardcodedGroups.Values];
             }
 
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -116,7 +116,7 @@ namespace Moderation.DbEndpoints
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -146,7 +146,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();

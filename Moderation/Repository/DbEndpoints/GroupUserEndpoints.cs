@@ -75,7 +75,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -109,7 +109,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedGroupUsers.Values];
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -120,7 +120,7 @@ namespace Moderation.DbEndpoints
                 ApplicationState.Get().DbConnectionIsAvailable = false;
                 return [.. HardcodedGroupUsers.Values];
             }
-            List<GroupUser> users =[];
+            List<GroupUser> users = [];
 
             string sql = "SELECT Id, Uid, Groupid, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId FROM GroupUser";
 
@@ -130,7 +130,6 @@ namespace Moderation.DbEndpoints
             {
                 // UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
                 // UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
-
                 GroupUser user = new (reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), new UserStatus(UserRestriction.None, DateTime.Now), reader.GetGuid(8));
                 users.Add(user);
             }

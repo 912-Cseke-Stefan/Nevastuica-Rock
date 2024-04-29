@@ -24,7 +24,7 @@ public partial class CommentsFeedView : ContentPage
         {
             new ("Nice one.", new GroupUser(Guid.Parse("0478C96C-548B-427C-96A1-006291F50C7B"), group.Id), []),
             new ("Unbelievable.", new GroupUser(Guid.Parse("59B2E634-EA1E-48E1-9C9A-05E4ED8A8011"), group.Id), []),
-            new ("Wow.",new GroupUser(Guid.Parse("FBAC81EF-BD49-45F6-8EB5-0DD21FD851C0"), group.Id), []),
+            new ("Wow.", new GroupUser(Guid.Parse("FBAC81EF-BD49-45F6-8EB5-0DD21FD851C0"), group.Id), []),
             new ("...", new GroupUser(Guid.Parse("0CA3CAF2-161D-435B-9B06-17C63BA1EBA9"), group.Id), []),
             new (".", new GroupUser(Guid.Parse("05647D11-F9C6-49DE-B5B5-1E072657F963"), group.Id), [])
         };

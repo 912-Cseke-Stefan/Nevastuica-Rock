@@ -82,6 +82,6 @@ public partial class GroupEntryForm : ContentPage
                                 $"\ttime: {DateTime.Now},\n" +
                                 "\t[\n" + string.Join(",", responses.Select(entry => $"{{\n\t{entry.Key}: {entry.Value}\n}}")) + "\n]\n" +
                                 "}";
-        DisplayAlert("Thanks for applying! We'll get back to you soon",$"Form Responses : {responseString}", "OK");
+        DisplayAlert("Thanks for applying! We'll get back to you soon", $"Form Responses : {responseString}", "OK");
     }
 }

@@ -16,7 +16,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Add(award.Id, award);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -41,7 +41,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAwards.Values];
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -79,7 +79,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards[award.Id] = award;
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -109,7 +109,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (connectionString);
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
