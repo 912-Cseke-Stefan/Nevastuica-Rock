@@ -1,47 +1,51 @@
 ﻿using Moderation.Model;
 using Moderation.Entities;
 using Moderation.DbEndpoints;
+using Moderation.Repository.Interfaces;
 
 namespace Moderation.Repository
 {
-    public class UserRepository : Repository<User>
+    public class UserRepository : IUserRepository
     {
-        public UserRepository(Dictionary<Guid, User> data) : base(data)
+        protected readonly Dictionary<Guid, User> data;
+
+        public UserRepository(Dictionary<Guid, User> data)
         {
+            this.data = data;
         }
 
         public UserRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, User value)
+        public bool Add(Guid key, User value)
         {
             UserEndpoints.CreateUser(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return UserEndpoints.ReadAllUsers().Exists(u => u.Id == key);
         }
 
-        public override User? Get(Guid key)
+        public User? Get(Guid key)
         {
             return UserEndpoints.ReadAllUsers().Find(u => u.Id == key);
         }
 
-        public override IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAll()
         {
             return UserEndpoints.ReadAllUsers();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             UserEndpoints.DeleteUser(key);
             return true;
         }
 
-        public override bool Update(Guid key, User value)
+        public bool Update(Guid key, User value)
         {
             UserEndpoints.UpdateUser(value);
             return true;
