@@ -5,8 +5,11 @@ namespace Moderation.Repository
 {
     public class TextPostRepository : Repository<TextPost>
     {
-        public TextPostRepository(Dictionary<Guid, TextPost> data) : base(data)
+        protected readonly Dictionary<Guid, TextPost> data;
+
+        public TextPostRepository(Dictionary<Guid, TextPost> data)
         {
+            this.data = data;
         }
         public TextPostRepository() : base()
         {
