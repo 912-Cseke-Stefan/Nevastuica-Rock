@@ -2,7 +2,7 @@
 
 namespace Backend.Repository.Interfaces
 {
-    public interface IAwardRepository: IRepository<Award>
+    public interface IAwardRepository : IRepository<Award>
     {
     }
 }

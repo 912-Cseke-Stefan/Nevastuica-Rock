@@ -28,7 +28,7 @@ namespace Moderation.Repository
             return GroupEndpoints.ReadAllGroups().Exists(u => u.Id == key);
         }
 
-        public  Group? Get(Guid key)
+        public Group? Get(Guid key)
         {
             return GroupEndpoints.ReadAllGroups().Find(u => u.Id == key);
         }
