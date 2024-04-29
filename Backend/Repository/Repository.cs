@@ -1,4 +1,5 @@
-﻿using Moderation.Entities;
+﻿using Backend.Repository.Interfaces;
+using Moderation.Entities;
 
 namespace Moderation.Repository
 {
