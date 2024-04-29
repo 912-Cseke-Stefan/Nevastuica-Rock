@@ -38,14 +38,14 @@ namespace Moderation.Entities
         }
         private static string GetRandomlyGeneratedPassword()
         {
-            Random random = new();
+            Random random = new ();
 
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
 
             int length = random.Next(8, 24);
 
             char[] chars = new char[length];
-            
+
             for (int i = 0; i < length; i++)
             {
                 chars[i] = validChars[random.Next(0, validChars.Length)];

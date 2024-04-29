@@ -4,11 +4,13 @@ using Moderation.DbEndpoints;
 
 namespace Moderation.Repository
 {
-    public class UserRepository : Repository<User> 
+    public class UserRepository : Repository<User>
     {
         public UserRepository(Dictionary<Guid, User> data) : base(data) { }
 
-        public UserRepository() : base() { }
+        public UserRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, User value)
         {

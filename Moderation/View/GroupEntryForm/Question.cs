@@ -7,7 +7,5 @@ namespace Moderation.GroupEntryForm
     {
         public Guid Id { get; } = Guid.NewGuid();
         public string Text { get; } = text;
-
-        
     }
 }

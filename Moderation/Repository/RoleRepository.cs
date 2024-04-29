@@ -1,10 +1,5 @@
 ﻿using Moderation.DbEndpoints;
 using Moderation.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
@@ -12,7 +7,9 @@ namespace Moderation.Repository
     {
         public RoleRepository(Dictionary<Guid, Role> data) : base(data) { }
 
-        public RoleRepository() : base() { }
+        public RoleRepository() : base()
+        {
+        }
 
         public override bool Add(Guid key, Role role)
         {

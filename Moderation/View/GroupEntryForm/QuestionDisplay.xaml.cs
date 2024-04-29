@@ -107,7 +107,7 @@ public class RadioQuestionDisplay(RadioQuestion question) : QuestionDisplay(ques
     }
 
 }
-public class QuestionDisplayFactory 
+public class QuestionDisplayFactory
 {
     public static QuestionDisplay GetQuestionDisplay(Question question)
     {

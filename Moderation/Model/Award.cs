@@ -15,6 +15,6 @@ namespace Moderation.Entities
             Silver,
             Gold
         }
-        public AwardType awardType { get; set; }
-    } 
+        public AwardType AwardTypeObj { get; set; }
+    }
 }

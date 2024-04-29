@@ -1,17 +1,14 @@
 ﻿using Moderation.DbEndpoints;
 using Moderation.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
     public class GroupUserRepository : Repository<GroupUser>
     {
         public GroupUserRepository(Dictionary<Guid, GroupUser> data) : base(data) { }
-        public GroupUserRepository(): base() { }
+        public GroupUserRepository() : base()
+        {
+        }
         public override bool Add(Guid key, GroupUser value)
         {
             GroupUserEndpoints.CreateGroupUser(value);
