@@ -38,7 +38,8 @@ namespace Moderation.Repository
 
         public bool Remove(Guid key)
         {
-            throw new Exception("Remove needs more than just the id");
+            return true;
+            // throw new Exception("Remove needs more than just the id");
         }
         public static bool Remove(JoinRequestAnswerToOneQuestion question)
         {

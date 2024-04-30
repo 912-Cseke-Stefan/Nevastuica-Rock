@@ -93,6 +93,7 @@ namespace Moderation.DbEndpoints
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 UpdateUserIfDBUnavailable(newValues);
+                return;
             }
             using SqlConnection connection = new ();
             try
@@ -133,6 +134,7 @@ namespace Moderation.DbEndpoints
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 DeleteUserIfDBUnavailable(id);
+                return;
             }
             using SqlConnection connection = new ();
             try
