@@ -1,48 +1,49 @@
-﻿using Moderation.DbEndpoints;
+﻿using Backend.Repository.Interfaces;
+using Moderation.DbEndpoints;
 using Moderation.Model;
 
 namespace Moderation.Repository
 {
-    public class TextPostRepository : Repository<TextPost>
+    public class TextPostRepository : ITextPostRepository
     {
-        protected readonly Dictionary<Guid, TextPost> data;
+        protected readonly Dictionary<Guid, TextPost> Data;
 
         public TextPostRepository(Dictionary<Guid, TextPost> data)
         {
-            this.data = data;
+            this.Data = data;
         }
         public TextPostRepository() : base()
         {
         }
 
-        public override bool Add(Guid key, TextPost value)
+        public bool Add(Guid key, TextPost value)
         {
             TextPostEndpoints.CreateTextPost(value);
             return true;
         }
 
-        public override bool Contains(Guid key)
+        public bool Contains(Guid key)
         {
             return TextPostEndpoints.ReadAllTextPosts().Exists(a => a.Id == key);
         }
 
-        public override TextPost? Get(Guid key)
+        public TextPost? Get(Guid key)
         {
             return TextPostEndpoints.ReadAllTextPosts().Find(a => a.Id == key);
         }
 
-        public override IEnumerable<TextPost> GetAll()
+        public IEnumerable<TextPost> GetAll()
         {
             return TextPostEndpoints.ReadAllTextPosts();
         }
 
-        public override bool Remove(Guid key)
+        public bool Remove(Guid key)
         {
             TextPostEndpoints.DeleteTextPost(key);
             return true;
         }
 
-        public override bool Update(Guid key, TextPost value)
+        public bool Update(Guid key, TextPost value)
         {
             TextPostEndpoints.UpdateTextPost(value);
             return true;

@@ -1,4 +1,5 @@
-﻿using Moderation.CurrentSessionNamespace;
+﻿using Backend.Repository;
+using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
 using Moderation.Repository;
 
@@ -10,7 +11,7 @@ namespace Moderation.Serivce
         public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
         public GroupRepository Groups { get; } = new ();
         public UserRepository UserRepository { get; } = new ();
-        public Repository<IPost> Posts { get; } = new ();
+        public PostRepository Posts { get; } = new ();
         public AwardRepository Awards { get; } = new ();
         public GroupRules Rules { get; } = new ();
         public GroupUserRepository GroupUsers { get; } = new ();
