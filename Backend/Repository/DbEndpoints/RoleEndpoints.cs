@@ -8,7 +8,6 @@ namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, Role> HardcodedRoles = new ()
         {
             {
@@ -41,7 +40,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Add(role.Id, role);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -76,7 +75,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedRoles.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -129,7 +128,7 @@ namespace Moderation.DbEndpoints
                 toUpdate.Name = newName;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -168,7 +167,7 @@ namespace Moderation.DbEndpoints
                 toUpdate.Permissions = newPermissions;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -211,7 +210,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Remove(roleId);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
