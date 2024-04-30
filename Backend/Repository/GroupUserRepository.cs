@@ -17,7 +17,7 @@ namespace Moderation.Repository
         }
         public bool Add(Guid key, GroupUser value)
         {
-                GroupUserEndpoints.CreateGroupUser(value);
+            GroupUserEndpoints.CreateGroupUser(value);
             return true;
         }
         public bool Contains(Guid key)
