@@ -7,7 +7,7 @@ using Backend.Repository.Interfaces;
 
 namespace Moderation.Test
 {
-    internal class GroupUserRepositoryMockTest : IGroupUserRepository
+    internal class MockGroupUserRepository : IGroupUserRepository
     {
 
     }
