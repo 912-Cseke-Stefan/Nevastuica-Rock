@@ -27,5 +27,7 @@ namespace Moderation.Serivce
             instance ??= new ApplicationState();
             return instance;
         }
+
+
     }
 }

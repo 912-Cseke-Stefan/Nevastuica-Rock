@@ -19,6 +19,8 @@ namespace Moderation
             builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddSingleton<>();
+
             return builder.Build();
         }
     }

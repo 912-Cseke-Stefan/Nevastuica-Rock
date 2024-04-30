@@ -23,7 +23,7 @@ public partial class ReportDisplay : ContentView
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        GroupUser groupUser = ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id == report.UserId && guser.GroupId == report.GroupId).ToArray()[0];
+        GroupUser groupUser = 
         User user = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
         var userIdValueLabel = new Label { Text = user.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 
