@@ -7,8 +7,6 @@ namespace Moderation.DbEndpoints
 {
     public class GroupUserEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
         private static readonly Dictionary<Guid, GroupUser> HardcodedGroupUsers = new ()
         {
             {
@@ -75,7 +73,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -109,7 +107,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedGroupUsers.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -148,7 +146,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers[user.Id] = user;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -196,7 +194,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroupUsers.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
