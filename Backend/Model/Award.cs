@@ -10,5 +10,11 @@
             Gold
         }
         public AwardType AwardTypeObj { get; set; }
+
+        public Award(Guid id, AwardType awardTypeObj)
+        {
+            Id = id;
+            AwardTypeObj = awardTypeObj;
+        }
     }
 }
