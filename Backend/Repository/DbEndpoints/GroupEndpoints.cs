@@ -9,7 +9,6 @@ namespace Moderation.DbEndpoints
 {
     internal class GroupEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, Group> HardcodedGroups = new ()
         {
             {
@@ -36,7 +35,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Add(group.Id, group);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -67,7 +66,7 @@ namespace Moderation.DbEndpoints
                 return [.. HardcodedGroups.Values];
             }
 
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -116,7 +115,7 @@ namespace Moderation.DbEndpoints
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -146,7 +145,7 @@ namespace Moderation.DbEndpoints
                 HardcodedGroups.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
