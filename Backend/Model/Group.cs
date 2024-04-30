@@ -9,8 +9,8 @@ namespace Moderation.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public User Creator { get; }
-        public Repository<Question> GroupEntryQuestions { get; }
-        public Repository<Role> Roles { get; }
+        public QuestionRepository GroupEntryQuestions { get; }
+        public RoleRepository Roles { get; }
         public Dictionary<User, Role> GroupMembers { get; }
         public Group(string name, string description, User creator)
         {
