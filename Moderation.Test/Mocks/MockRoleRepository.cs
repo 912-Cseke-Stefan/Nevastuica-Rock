@@ -2,7 +2,7 @@
 using Moderation.Model;
 using Moderation.Entities;
 
-namespace Moderation.Test
+namespace Moderation.Test.Mocks
 {
     internal class MockRoleRepository : IRoleRepository
     {
@@ -11,7 +11,7 @@ namespace Moderation.Test
 
         public MockRoleRepository()
         {
-            this.Data = new Dictionary<Guid, Role>();
+            Data = new Dictionary<Guid, Role>();
             for (var i = 0; i < 20; i++)
             {
                 Role role = new Role("Role " + i, new List<Permission>());

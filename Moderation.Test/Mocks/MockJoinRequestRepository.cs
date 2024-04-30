@@ -1,15 +1,9 @@
-﻿using Moderation.DbEndpoints;
-using Moderation.Entities;
-using Moderation.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Entities;
+using Backend.Repository.Interfaces;
 
 namespace Moderation.Test.Mocks
 {
-    internal class MockJoinRequestRepository : JoinRequestRepository
+    internal class MockJoinRequestRepository : IJoinRequestRepository
     {
         public bool Add(Guid key, JoinRequest value)
         {

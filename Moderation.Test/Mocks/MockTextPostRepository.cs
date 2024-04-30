@@ -1,10 +1,10 @@
 ﻿using Moderation.Entities;
-using Moderation.Repository;
+using Backend.Repository.Interfaces;
 using Moderation.Model;
 
 namespace Moderation.Test.Mocks
 {
-    internal class MockTextPostRepository : TextPostRepository
+    internal class MockTextPostRepository : ITextPostRepository
     {
         public bool Add(Guid key, TextPost value)
         {

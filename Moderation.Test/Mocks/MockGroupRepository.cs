@@ -1,23 +1,23 @@
-﻿using System.Text.RegularExpressions;
-using Backend.Repository.Interfaces;
+﻿using Backend.Repository.Interfaces;
+using Moderation.Model;
 using Moderation.Entities;
 
-namespace Moderation.Test
+namespace Moderation.Test.Mocks
 {
-    internal class MockGroupUserRepository : IGroupUserRepository
+    internal class MockGroupRepository : IGroupRepository
     {
-        protected readonly Dictionary<Guid, GroupUser> Data;
-        public MockGroupUserRepository()
+        protected readonly Dictionary<Guid, Group> Data;
+        public MockGroupRepository()
         {
-            this.Data = new Dictionary<Guid, GroupUser>();
+            Data = new Dictionary<Guid, Group>();
             for (var i = 0; i < 20; i++)
             {
-                GroupUser groupUser = new GroupUser(Guid.NewGuid(), Guid.NewGuid());
-                Data.Add(groupUser.Id, groupUser);
+                Group group = new Group("Group " + i, "Description " + i, new User("User " + i));
+                Data.Add(group.Id, group);
             }
         }
 
-        public bool Add(Guid key, GroupUser value)
+        public bool Add(Guid key, Group value)
         {
             Data.Add(key, value);
             return true;
@@ -33,7 +33,7 @@ namespace Moderation.Test
             return false;
         }
 
-        public GroupUser? Get(Guid key)
+        public Group? Get(Guid key)
         {
             if (Data.ContainsKey(key))
             {
@@ -42,7 +42,7 @@ namespace Moderation.Test
             return null;
         }
 
-        public IEnumerable<GroupUser> GetAll()
+        public IEnumerable<Group> GetAll()
         {
             return Data.Values;
         }
@@ -52,7 +52,7 @@ namespace Moderation.Test
             return Data.ContainsKey(key);
         }
 
-        public bool Update(Guid key, GroupUser value)
+        public bool Update(Guid key, Group value)
         {
             if (Data.ContainsKey(key))
             {

@@ -1,12 +1,9 @@
 ﻿using Backend.Repository.Interfaces;
-using Moderation.DbEndpoints;
-using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Repository;
 
 namespace Moderation.Test.Mocks
 {
-    internal class MockReportRepository : ReportRepository
+    internal class MockReportRepository : IReportRepository
     {
         public bool Add(Guid key, PostReport value)
         {

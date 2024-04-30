@@ -1,10 +1,10 @@
 ﻿using Moderation.Entities;
-using Moderation.Repository;
+using Backend.Repository.Interfaces;
 
 
 namespace Moderation.Test.Mocks
 {
-    internal class MockJoinRequestAnswerForOneQuestionRepository : JoinRequestAnswerForOneQuestionRepository
+    internal class MockJoinRequestAnswerForOneQuestionRepository : IJoinRequestAnswerForOneQuestionRepository
     {
         public bool Add(Guid key, JoinRequestAnswerToOneQuestion value)
         {
