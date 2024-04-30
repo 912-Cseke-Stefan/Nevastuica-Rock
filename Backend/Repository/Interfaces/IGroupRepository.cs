@@ -2,7 +2,7 @@
 
 namespace Backend.Repository.Interfaces
 {
-    internal interface IGroupRepository : IRepository<Group>
+    public interface IGroupRepository : IRepository<Group>
     {
     }
 }

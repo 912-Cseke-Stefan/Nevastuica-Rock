@@ -6,10 +6,10 @@ namespace Moderation.Repository
 {
     public class RoleRepository : IRoleRepository
     {
-        protected readonly Dictionary<Guid, Role> data;
+        protected readonly Dictionary<Guid, Role> Data;
         public RoleRepository(Dictionary<Guid, Role> data)
         {
-            this.data = data;
+            this.Data = data;
         }
 
         public RoleRepository() : base()
