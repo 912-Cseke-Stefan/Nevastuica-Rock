@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Model;
 
 namespace Backend.Repository.Interfaces
 {
-    public interface IReportRepository
+    public interface IReportRepository : IRepository<PostReport>
     {
     }
 }
