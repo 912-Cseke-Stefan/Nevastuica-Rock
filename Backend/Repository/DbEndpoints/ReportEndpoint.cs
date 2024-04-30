@@ -7,7 +7,6 @@ namespace Moderation.DbEndpoints
 {
     public class ReportEndpoint
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, PostReport> HardcodedReports = new ()
         {
             {
@@ -34,7 +33,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -65,7 +64,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedReports.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -99,7 +98,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports.Remove(reportId);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -132,7 +131,7 @@ namespace Moderation.DbEndpoints
                 HardcodedReports[id] = postReport;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
