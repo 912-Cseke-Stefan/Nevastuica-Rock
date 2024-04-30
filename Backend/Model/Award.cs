@@ -11,6 +11,10 @@
         }
         public AwardType AwardTypeObj { get; set; }
 
+        public Award()
+        {
+        }
+
         public Award(Guid id, AwardType awardTypeObj)
         {
             Id = id;
