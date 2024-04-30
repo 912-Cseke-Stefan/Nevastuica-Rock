@@ -3,7 +3,7 @@ using Moderation.Model;
 
 namespace Backend.Repository.Interfaces
 {
-    internal interface ITextPostRepository : IRepository<TextPost>
+    public interface ITextPostRepository : IRepository<TextPost>
     {
     }
 }
