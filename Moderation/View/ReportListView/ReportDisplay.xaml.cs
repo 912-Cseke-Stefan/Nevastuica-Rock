@@ -9,6 +9,7 @@ namespace Moderation.ReportListView;
 public partial class ReportDisplay : ContentView
 {
     private PostReport postReport;
+    private 
     public ReportDisplay(PostReport report)
     {
         this.postReport = report;
