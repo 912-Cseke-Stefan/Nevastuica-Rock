@@ -7,7 +7,6 @@ namespace Moderation.DbEndpoints
 {
     public class AwardEndpoint
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, Award> HardcodedAwards = [];
         public static void CreateAward(Award award)
         {
@@ -16,7 +15,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Add(award.Id, award);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -41,7 +40,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAwards.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -79,7 +78,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards[award.Id] = award;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -109,7 +108,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAwards.Remove(id);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();

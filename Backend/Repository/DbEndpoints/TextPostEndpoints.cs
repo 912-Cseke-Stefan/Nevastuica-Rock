@@ -8,7 +8,6 @@ namespace Moderation.DbEndpoints
 {
     public class TextPostEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, TextPost> HardcodedPosts = new ()
         {
             {
@@ -39,7 +38,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts.Add(textPost.Id, textPost);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -84,7 +83,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedPosts.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -130,7 +129,7 @@ namespace Moderation.DbEndpoints
             {
                 return [];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -168,7 +167,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts.Remove(postId);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -209,7 +208,7 @@ namespace Moderation.DbEndpoints
                 HardcodedPosts[textPost.Id] = textPost;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();

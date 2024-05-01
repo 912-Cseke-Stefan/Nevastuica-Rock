@@ -7,7 +7,6 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestAnswerForOneQuestionEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, JoinRequestAnswerToOneQuestion> HardcodedAnswers = new ()
         {
             {
@@ -42,7 +41,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Add(question.Id, question);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -67,7 +66,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAnswers.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -103,7 +102,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers[question.Id] = question;
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -134,7 +133,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Remove(question.Id);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();

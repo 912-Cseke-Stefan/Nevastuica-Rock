@@ -7,7 +7,6 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestEndpoints
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new ()
         {
             {
@@ -24,7 +23,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -49,7 +48,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedJoinRequests.Values];
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
@@ -82,7 +81,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
-            using SqlConnection connection = new (ConnectionString);
+            using SqlConnection connection = new ();
             try
             {
                 connection.Open();
