@@ -16,7 +16,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
                     "Izabella's birthday party",
                     "balabla",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1")) ?? new User("Izabella"))
+                    new User("Izabella"))
             },
             {
                 Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
@@ -24,7 +24,7 @@ namespace Moderation.DbEndpoints
                     Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
                     "Victor's study group",
                     "none provided",
-                    ApplicationState.Get().UserRepository?.Get(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06")) ?? new User("Victor"))
+                    new User("Victor"))
             }
         };
         public static void CreateGroup(Group group)

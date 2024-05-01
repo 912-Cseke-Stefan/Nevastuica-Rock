@@ -12,23 +12,58 @@ namespace Moderation.DbEndpoints
         {
             {
                 Guid.Parse("2077F417-CB31-4728-B5BB-3AA57239BBCD"),
-                new TextPost(Guid.Parse("2077F417-CB31-4728-B5BB-3AA57239BBCD"), "Hello! Welcome!", Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), ApplicationState.Get().GroupUsers.Get(Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092")) ?? throw new Exception("No author by that id"))
+                new TextPost(Guid.Parse("2077F417-CB31-4728-B5BB-3AA57239BBCD"), "Hello! Welcome!", Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), new GroupUser(
+                    Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
+                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),   // victor
+                /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"), // victor's study group
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177")) ?? throw new Exception("No author by that id"))
             },
             {
                 Guid.Parse("EC492AE1-D795-442E-9F64-88DC19CA8F6E"),
-                new TextPost(Guid.Parse("EC492AE1-D795-442E-9F64-88DC19CA8F6E"), "This post is very problematic >:-(", Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"), ApplicationState.Get().GroupUsers.Get(Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769")) ?? throw new Exception("No author by that id"))
+                new TextPost(Guid.Parse("EC492AE1-D795-442E-9F64-88DC19CA8F6E"), "This post is very problematic >:-(", Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"), new GroupUser(
+                    Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"),
+                /*User*/Guid.Parse("0825D1FD-C40B-4926-A128-2D924D564B3E"),  // boti
+                /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"), // victor's study group
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3")) ?? throw new Exception("No author by that id"))
             },
             {
                 Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"),
-                new TextPost(Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"), "I hate some people in this group", Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"), ApplicationState.Get().GroupUsers.Get(Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769")) ?? throw new Exception("No author by that id"))
+                new TextPost(Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"), "I hate some people in this group", Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"), new GroupUser(
+                    Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"),
+                /*User*/Guid.Parse("0825D1FD-C40B-4926-A128-2D924D564B3E"),  // boti
+                /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"), // victor's study group
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3")) ?? throw new Exception("No author by that id"))
             },
             {
                 Guid.Parse("6AF9EF40-EE0B-4123-BA8A-D38B193C77B6"),
-                new TextPost(Guid.Parse("6AF9EF40-EE0B-4123-BA8A-D38B193C77B6"), "Happy birthday!!", Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759"), ApplicationState.Get().GroupUsers.Get(Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759")) ?? throw new Exception("No author by that id"))
+                new TextPost(Guid.Parse("6AF9EF40-EE0B-4123-BA8A-D38B193C77B6"), "Happy birthday!!", Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759"), new GroupUser(
+                    Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759"),
+                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),  // victor
+                /*Group*/Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"), // izabella's bd party
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3")) ?? throw new Exception("No author by that id"))
             },
             {
                 Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C662B"),
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C662B"), "Thanks everyone!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"), ApplicationState.Get().GroupUsers.Get(Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692")) ?? throw new Exception("No author by that id"))
+                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C662B"), "Thanks everyone!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"), new GroupUser(
+                    Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"),
+                /*User*/Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"),  // izabella
+                /*Group*/Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"), // izabella's bd party
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177")) ?? throw new Exception("No author by that id"))
             }
         };
         public static void CreateTextPost(TextPost textPost)
