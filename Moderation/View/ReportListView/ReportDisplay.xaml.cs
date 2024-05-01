@@ -2,6 +2,7 @@ using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
+using Backend.Service;
 using Moderation.View.GroupFeed;
 
 namespace Moderation.ReportListView;
@@ -9,9 +10,10 @@ namespace Moderation.ReportListView;
 public partial class ReportDisplay : ContentView
 {
     private PostReport postReport;
-    private 
+    private Service service;
     public ReportDisplay(PostReport report)
     {
+        this.service = Service.GetService();
         this.postReport = report;
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 
@@ -24,7 +26,7 @@ public partial class ReportDisplay : ContentView
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        GroupUser groupUser = 
+        GroupUser groupUser = service.GetGroupUserFromPostReport(report);
         User user = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
         var userIdValueLabel = new Label { Text = user.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 

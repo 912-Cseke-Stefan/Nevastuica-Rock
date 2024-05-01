@@ -6,7 +6,7 @@ namespace Moderation.Serivce
     public class ApplicationState
     {
         private static ApplicationState instance;
-        public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
+        // public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
         public IGroupRepository Groups { get; }
         public IUserRepository UserRepository { get; }
         public IPostRepository Posts { get; }
