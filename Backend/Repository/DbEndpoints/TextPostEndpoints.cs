@@ -33,7 +33,7 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateTextPost(TextPost textPost)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 HardcodedPosts.Add(textPost.Id, textPost);
                 return;
@@ -46,7 +46,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedPosts.Add(textPost.Id, textPost);
                 return;
             }
@@ -79,7 +79,7 @@ namespace Moderation.DbEndpoints
         }
         public static List<TextPost> ReadAllTextPosts()
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 return [.. HardcodedPosts.Values];
             }
@@ -91,7 +91,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedPosts.Values];
             }
             List<TextPost> textPosts = [];
@@ -125,7 +125,7 @@ namespace Moderation.DbEndpoints
         }
         private static List<Award> ReadAwardsForPost(Guid postId)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 return [];
             }
@@ -137,7 +137,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 return [];
             }
             List<Award> awards = [];
@@ -162,7 +162,7 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteTextPost(Guid postId)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 HardcodedPosts.Remove(postId);
                 return;
@@ -175,7 +175,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedPosts.Remove(postId);
                 return;
             }
@@ -198,7 +198,7 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateTextPost(TextPost textPost)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 if (!HardcodedPosts.ContainsKey(textPost.Id))
                 {
@@ -216,7 +216,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedPosts.ContainsKey(textPost.Id))
                 {
                     return;

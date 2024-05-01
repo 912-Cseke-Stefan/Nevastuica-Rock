@@ -5,6 +5,7 @@ namespace Moderation.Serivce
 {
     public class ApplicationState
     {
+        private static ApplicationState instance;
         public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
         public IGroupRepository Groups { get; }
         public IUserRepository UserRepository { get; }
@@ -18,7 +19,7 @@ namespace Moderation.Serivce
         public IReportRepository Reports { get; }
         public IRoleRepository Roles { get; }
         public ITextPostRepository TextPosts { get; }
-        public bool DbConnectionIsAvailable { get; set; } = false;
+        public static bool DbConnectionIsAvailable { get; set; } = false;
 
         public ApplicationState(IGroupRepository groupRepository,
                                 IUserRepository userRepository,
@@ -45,6 +46,13 @@ namespace Moderation.Serivce
             Reports = reportRepository;
             Roles = roleRepository;
             TextPosts = textPostRepository;
+
+            instance = this;
+        }
+
+        public static ApplicationState Get()
+        {
+            return instance;
         }
     }
 }

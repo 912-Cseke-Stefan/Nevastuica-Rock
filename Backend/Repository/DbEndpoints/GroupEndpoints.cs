@@ -3,7 +3,6 @@ using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
-using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation.DbEndpoints
 {
@@ -30,7 +29,7 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateGroup(Group group)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 HardcodedGroups.Add(group.Id, group);
                 return;
@@ -43,7 +42,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedGroups.Add(group.Id, group);
                 return;
             }
@@ -61,7 +60,7 @@ namespace Moderation.DbEndpoints
         }
         public static List<Group> ReadAllGroups()
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 return [.. HardcodedGroups.Values];
             }
@@ -74,7 +73,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedGroups.Values];
             }
 
@@ -110,7 +109,7 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateGroup(Group group)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 UpdateGroupIfDBUnvailable(group);
                 return;
@@ -123,7 +122,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 UpdateGroupIfDBUnvailable(group);
                 return;
             }
@@ -140,7 +139,7 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteGroup(Guid id)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 HardcodedGroups.Remove(id);
                 return;
@@ -153,7 +152,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedGroups.Remove(id);
                 return;
             }

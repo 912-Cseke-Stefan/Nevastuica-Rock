@@ -19,7 +19,7 @@ namespace Moderation.DbEndpoints
                                                      new User(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"), "izabella", "yup")];
         public static void CreateUser(User user)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 HardcodedUsers.Add(user);
                 return;
@@ -32,7 +32,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedUsers.Add(user);
                 return;
             }
@@ -49,7 +49,7 @@ namespace Moderation.DbEndpoints
 
         public static List<User> ReadAllUsers()
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 return HardcodedUsers;
             }
@@ -62,7 +62,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 return HardcodedUsers;
             }
             string sql = "SELECT Id, Username, Password FROM [User]";
@@ -90,7 +90,7 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateUser(User newValues)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 UpdateUserIfDBUnavailable(newValues);
                 return;
@@ -103,7 +103,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 UpdateUserIfDBUnavailable(newValues);
                 return;
             }
@@ -131,7 +131,7 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteUser(Guid id)
         {
-            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            if (!ApplicationState.DbConnectionIsAvailable)
             {
                 DeleteUserIfDBUnavailable(id);
                 return;
@@ -144,7 +144,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.Get().DbConnectionIsAvailable = false;
+                ApplicationState.DbConnectionIsAvailable = false;
                 DeleteUserIfDBUnavailable(id);
                 return;
             }
