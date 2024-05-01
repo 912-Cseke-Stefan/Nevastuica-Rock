@@ -3,7 +3,7 @@ using Moderation.CurrentSessionNamespace;
 
 namespace Moderation.Serivce
 {
-    public class ApplicationState
+    internal class ApplicationState
     {
         private static ApplicationState instance;
         // public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
