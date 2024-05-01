@@ -3,7 +3,6 @@ using Moderation.Entities;
 using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
-using Moderation.Repository;
 using Moderation.Serivce;
 
 namespace Moderation.View;
@@ -40,8 +39,7 @@ public class SingleGroupView : ContentView
             if (userIsInGroup)
             {
                 CurrentSession.GetInstance().LookIntoGroup(group);
-                TextPostRepository repo = ApplicationState.Get().TextPosts;
-                List<TextPost> posts = repo.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
+                List<TextPost> posts = ApplicationState.Get().TextPosts.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
                 GroupFeedView nextPage = new (posts);
                 Navigation.PushAsync(nextPage);
             }
