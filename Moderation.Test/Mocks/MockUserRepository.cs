@@ -18,7 +18,7 @@ namespace Moderation.Test.Mocks
         public User? Get(Guid key)
         {
             // Creating a new user with a default constructor
-            return new User(Guid.NewGuid(), "TestUser", "TestPassword");
+            return new User(key, "TestUser", "TestPassword");
         }
 
         public IEnumerable<User> GetAll()
@@ -26,7 +26,7 @@ namespace Moderation.Test.Mocks
             // Creating users with different constructors
             return new List<User>()
             {
-                new User("TestUser1"),
+                new User(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"), "TestUser1"),
                 new User("TestUser2"),
                 new User("TestUser3")
             };
@@ -44,7 +44,7 @@ namespace Moderation.Test.Mocks
 
         public Guid? GetGuidByName(string name)
         {
-            return Guid.NewGuid();
+            return Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092");
         }
     }
 }

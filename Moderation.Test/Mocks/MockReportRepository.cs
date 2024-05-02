@@ -23,9 +23,9 @@ namespace Moderation.Test.Mocks
         public IEnumerable<PostReport> GetAll()
         {
             return new List<PostReport>() { 
-                new PostReport(new Guid(), new Guid(),"message1", new Guid()),
-                new PostReport(new Guid(), new Guid(),"message2", new Guid()),
-                new PostReport(new Guid(), new Guid(),"message3", new Guid())
+                new PostReport(new Guid(), new Guid(),"message1", Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")),
+                new PostReport(new Guid(), new Guid(),"message2", Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")),
+                new PostReport(new Guid(), Guid.Parse("2077F417-CB31-4728-B5BB-3AA57239BBCD"),"message3", Guid.Parse("3E0F1ED0-8EAF-9999-9999-07D62FFEF973"))
             };
         }
 

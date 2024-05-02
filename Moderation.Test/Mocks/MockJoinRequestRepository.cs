@@ -23,7 +23,7 @@ namespace Moderation.Test.Mocks
         public IEnumerable<JoinRequest> GetAll()
         {
             return new List<JoinRequest>() { 
-                new JoinRequest(Guid.NewGuid()),
+                new JoinRequest(Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06")),
                 new JoinRequest(Guid.NewGuid()),
                 new JoinRequest(Guid.NewGuid())
             };

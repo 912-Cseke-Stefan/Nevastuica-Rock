@@ -44,7 +44,18 @@ namespace Moderation.Test.Mocks
 
         public IEnumerable<Group> GetAll()
         {
-            return Data.Values;
+            return new List<Group> {
+                new Group (
+                    Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
+                    "Izabella's birthday party",
+                    "balabla",
+                    new User("Izabella")),
+                new Group (
+                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
+                    "Victor's study group",
+                    "none provided",
+                    new User("Victor"))
+            };
         }
 
         public bool Contains(Guid key)
