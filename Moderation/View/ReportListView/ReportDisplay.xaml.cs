@@ -9,9 +9,9 @@ public partial class ReportDisplay : ContentView
 {
     private PostReport postReport;
     private Service service;
-    public ReportDisplay(PostReport report)
+    public ReportDisplay(Service service, PostReport report)
     {
-        this.service = Service.GetService();
+        this.service = service;
         this.postReport = report;
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 

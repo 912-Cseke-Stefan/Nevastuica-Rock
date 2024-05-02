@@ -67,7 +67,7 @@ public class SingleGroupView : ContentView
         reportButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new ReportListView.ReportListView(service.GetReportsWhichBelongToGivenGroup(group)));
+            Navigation.PushAsync(new ReportListView.ReportListView(service, group));
         };
         var joinRequestButton = new Button
         {

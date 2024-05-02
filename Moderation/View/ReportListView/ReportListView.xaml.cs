@@ -1,14 +1,17 @@
 using Moderation.Model;
+using Backend.Service;
 
 namespace Moderation.ReportListView;
 
 public partial class ReportListView : ContentPage
 {
+    private Service service;
 	private readonly IEnumerable<PostReport> postReports;
-	public ReportListView(IEnumerable<PostReport> postReports)
+	public ReportListView(Service service, Group group)
 	{
+        this.service = service;
 		// InitializeComponent();
-		this.postReports = postReports;
+		this.postReports = service.GetReportsWhichBelongToGivenGroup(group);
         CreateList();
 	}
 	private void CreateList()
@@ -23,7 +26,7 @@ public partial class ReportListView : ContentPage
         stackLayout.Children.Add(titleLabel);
         foreach (var report in postReports)
         {
-            var reportControl = new ReportDisplay(report);
+            var reportControl = new ReportDisplay(service, report);
             stackLayout.Children.Add(reportControl);
         }
         var backButton = BackButton();
