@@ -1,7 +1,6 @@
 ﻿using Backend.Repository.Interfaces;
 using Moderation.DbEndpoints;
 using Moderation.Entities;
-using Moderation.Model;
 
 namespace Moderation.Repository
 {
