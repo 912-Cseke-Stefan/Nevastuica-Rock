@@ -23,7 +23,7 @@ namespace Backend.Service
             return state.UserRepository.GetGuidByName(name);
         }
 
-        public User GetUserByGuid(Guid id)
+        public User? GetUserByGuid(Guid id)
         {
             return state.UserRepository.Get(id);
         }
@@ -69,6 +69,16 @@ namespace Backend.Service
             return state.UserRepository.GetAll()
                                        .Where(user => user.Id == groupUserFromPost.UserId)
                                        .ToArray()[0];
+        }
+
+        public GroupUser? GetGroupUserFromUserGuid(Guid userId)
+        {
+            return state.GroupUsers.Get(userId);
+        }
+
+        public IEnumerable<JoinRequestAnswerToOneQuestion> GetRequestAnswersForGivenRequestGuid(Guid requestId)
+        {
+            return state.JoinRequestForOneQuestionAnswers.GetAll().Where(answer => answer.RequestId == requestId);
         }
     }
 }
