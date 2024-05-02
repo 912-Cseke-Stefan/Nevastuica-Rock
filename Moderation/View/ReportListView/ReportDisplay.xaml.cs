@@ -1,7 +1,5 @@
-using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Serivce;
 using Backend.Service;
 using Moderation.View.GroupFeed;
 

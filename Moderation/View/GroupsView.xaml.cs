@@ -1,6 +1,6 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
-using Moderation.Serivce;
+using Backend.Service;
 
 namespace Moderation;
 

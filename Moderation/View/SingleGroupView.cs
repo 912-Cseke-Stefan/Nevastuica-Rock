@@ -3,7 +3,7 @@ using Moderation.Entities;
 using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
-using Moderation.Serivce;
+using Backend.Service;
 
 namespace Moderation.View;
 

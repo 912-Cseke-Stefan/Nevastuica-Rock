@@ -1,5 +1,5 @@
 using Moderation.Entities;
-using Moderation.Serivce;
+using Backend.Service;
 
 namespace Moderation.JoinRequestView;
 
