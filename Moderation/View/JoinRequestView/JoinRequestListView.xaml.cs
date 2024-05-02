@@ -1,13 +1,17 @@
 using Moderation.Entities;
+using Moderation.Model;
+using Backend.Service;
 
 namespace Moderation.JoinRequestView;
 
 public partial class JoinRequestListView : ContentPage
 {
+    private Service service;
 	private IEnumerable<JoinRequest> joinRequests;
-	public JoinRequestListView(IEnumerable<JoinRequest> joinRequests)
+	public JoinRequestListView(Service service, Group group)
 	{
-		this.joinRequests = joinRequests;
+        this.service = service;
+		this.joinRequests = service.GetJoinRequestsForGivenGroup(group);
 		// InitializeComponeknt();
 		CreateList();
 	}
@@ -17,7 +21,7 @@ public partial class JoinRequestListView : ContentPage
 
         foreach (var request in joinRequests)
         {
-            var requestControl = new JoinRequestDisplay(request);
+            var requestControl = new JoinRequestDisplay(service, request);
             stackLayout.Children.Add(requestControl);
         }
         var backButton = BackButton();

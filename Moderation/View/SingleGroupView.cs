@@ -80,7 +80,7 @@ public class SingleGroupView : ContentView
         joinRequestButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(service.GetJoinRequestsForGivenGroup(group)));
+            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(service, group));
         };
         if (userIsInGroup)
         {

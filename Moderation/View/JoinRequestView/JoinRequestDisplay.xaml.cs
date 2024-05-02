@@ -5,9 +5,11 @@ namespace Moderation.JoinRequestView;
 
 public partial class JoinRequestDisplay : ContentView
 {
+    private Service service;
     private readonly JoinRequest joinRequest;
-    public JoinRequestDisplay(JoinRequest joinRequest)
+    public JoinRequestDisplay(Service service, JoinRequest joinRequest)
     {
+        this.service = service;
         this.joinRequest = joinRequest;
         // InitializeComponent();
         CreateView();
