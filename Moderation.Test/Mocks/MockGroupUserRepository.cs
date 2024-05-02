@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Backend.Repository.Interfaces;
+﻿using Backend.Repository.Interfaces;
 using Moderation.Entities;
 
 namespace Moderation.Test.Mocks
