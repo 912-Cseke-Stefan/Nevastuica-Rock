@@ -34,7 +34,7 @@ public partial class LoginPage : ContentPage
             usernameEntry.Text = string.Empty;
             passwordEntry.Text = string.Empty;
             CurrentSession.GetInstance().LogIn(currentUser);
-            await Navigation.PushAsync(new GroupsView());
+            await Navigation.PushAsync(new GroupsView(service));
         }
         catch (ArgumentException argEx)
         {
