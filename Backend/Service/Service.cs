@@ -4,7 +4,7 @@ using Moderation.Serivce;
 
 namespace Backend.Service
 {
-    public class Service
+    public class Service : IService
     {
         private ApplicationState state;
 
