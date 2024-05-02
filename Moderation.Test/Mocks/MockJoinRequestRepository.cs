@@ -33,5 +33,10 @@ namespace Moderation.Test.Mocks
         {
             return true;
         }
+
+        public bool Update(Guid key, JoinRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

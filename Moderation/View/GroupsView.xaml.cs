@@ -1,23 +1,25 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
-using Moderation.Serivce;
-using ApplicationState = Moderation.Serivce.ApplicationState;
+using Backend.Service;
 
 namespace Moderation;
 
 public partial class GroupsView : ContentPage
 {
-    public GroupsView()
+    private IService service;
+
+    public GroupsView(IService service)
     {
+        this.service = service;
         Content = new StackLayout { HorizontalOptions = LayoutOptions.Fill };
         MakeKids();
     }
 
     private void MakeKids()
     {
-        foreach (Group group in ApplicationState.Get().Groups.GetAll())
+        foreach (Group group in service.GetAllGroups())
         {
-            ((StackLayout)Content).Children.Add(new View.SingleGroupView(group, CurrentSession.GetInstance().User));
+            ((StackLayout)Content).Children.Add(new View.SingleGroupView(service, group, CurrentSession.GetInstance().User));
         }
         Button backButton = new ()
         {

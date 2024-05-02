@@ -1,5 +1,4 @@
-﻿using Moderation.Model;
-using Moderation.Entities;
+﻿using Moderation.Entities;
 using Moderation.DbEndpoints;
 using Backend.Repository.Interfaces;
 

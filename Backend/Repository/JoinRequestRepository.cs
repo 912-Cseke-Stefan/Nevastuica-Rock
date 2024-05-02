@@ -41,5 +41,10 @@ namespace Moderation.Repository
             JoinRequestEndpoints.DeleteJoinRequest(key);
             return true;
         }
+
+        public bool Update(Guid key, JoinRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

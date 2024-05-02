@@ -1,13 +1,15 @@
 using Moderation.Entities;
-using Moderation.Serivce;
+using Backend.Service;
 
 namespace Moderation.JoinRequestView;
 
 public partial class JoinRequestDisplay : ContentView
 {
+    private IService service;
     private readonly JoinRequest joinRequest;
-    public JoinRequestDisplay(JoinRequest joinRequest)
+    public JoinRequestDisplay(IService service, JoinRequest joinRequest)
     {
+        this.service = service;
         this.joinRequest = joinRequest;
         // InitializeComponent();
         CreateView();
@@ -25,9 +27,9 @@ public partial class JoinRequestDisplay : ContentView
         requestIdStackLayout.Children.Add(requestIdValueLabel);
         stackLayout.Children.Add(requestIdStackLayout);
 
-        GroupUser? groupUser = ApplicationState.Get().GroupUsers.Get(joinRequest.UserId);
+        GroupUser? groupUser = service.GetGroupUserFromUserGuid(joinRequest.UserId);
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-        User? user = ApplicationState.Get().UserRepository.Get(groupUser.UserId);
+        User? user = service.GetUserByGuid(groupUser.UserId);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
@@ -37,7 +39,7 @@ public partial class JoinRequestDisplay : ContentView
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
-        IEnumerable<JoinRequestAnswerToOneQuestion> answers = ApplicationState.Get().JoinRequestForOneQuestionAnswers.GetAll().Where(answer => answer.RequestId == joinRequest.Id);
+        IEnumerable<JoinRequestAnswerToOneQuestion> answers = service.GetRequestAnswersForGivenRequestGuid(joinRequest.UserId);
 
         foreach (var answer in answers)
         {

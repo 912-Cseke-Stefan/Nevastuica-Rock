@@ -1,30 +1,57 @@
-﻿using Backend.Repository;
+﻿using Backend.Repository.Interfaces;
 using Moderation.CurrentSessionNamespace;
-using Moderation.Model;
-using Moderation.Repository;
 
 namespace Moderation.Serivce
 {
     public class ApplicationState
     {
-        static private ApplicationState? instance;
-        public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
-        public GroupRepository Groups { get; } = new ();
-        public UserRepository UserRepository { get; } = new ();
-        public PostRepository Posts { get; } = new ();
-        public AwardRepository Awards { get; } = new ();
-        public GroupRules Rules { get; } = new ();
-        public GroupUserRepository GroupUsers { get; } = new ();
-        public JoinRequestAnswerForOneQuestionRepository JoinRequestForOneQuestionAnswers { get; } = new ();
-        public JoinRequestRepository JoinRequests { get; } = new ();
-        public QuestionRepository Questions { get; } = new ();
-        public ReportRepository Reports { get; } = new ();
-        public RoleRepository Roles { get; } = new ();
-        public TextPostRepository TextPosts { get; } = new ();
-        public bool DbConnectionIsAvailable { get; set; } = false;
-        static public ApplicationState Get()
+        private static ApplicationState instance;
+        // public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
+        public IGroupRepository Groups { get; }
+        public IUserRepository UserRepository { get; }
+        public IPostRepository Posts { get; }
+        public IAwardRepository Awards { get; }
+        public IGroupRules Rules { get; }
+        public IGroupUserRepository GroupUsers { get; }
+        public IJoinRequestAnswerForOneQuestionRepository JoinRequestForOneQuestionAnswers { get; }
+        public IJoinRequestRepository JoinRequests { get; }
+        public IQuestionRepository Questions { get; }
+        public IReportRepository Reports { get; }
+        public IRoleRepository Roles { get; }
+        public ITextPostRepository TextPosts { get; }
+        public static bool DbConnectionIsAvailable { get; set; } = false;
+
+        public ApplicationState(IGroupRepository groupRepository,
+                                IUserRepository userRepository,
+                                IPostRepository postRepository,
+                                IAwardRepository awardRepository,
+                                IGroupRules groupRules,
+                                IGroupUserRepository groupUserRepository,
+                                IJoinRequestAnswerForOneQuestionRepository joinRequestAnswerForOneQuestionRepository,
+                                IJoinRequestRepository joinRequestRepository,
+                                IQuestionRepository questionRepository,
+                                IReportRepository reportRepository,
+                                IRoleRepository roleRepository,
+                                ITextPostRepository textPostRepository)
         {
-            instance ??= new ApplicationState();
+            Groups = groupRepository;
+            UserRepository = userRepository;
+            Posts = postRepository;
+            Awards = awardRepository;
+            Rules = groupRules;
+            GroupUsers = groupUserRepository;
+            JoinRequestForOneQuestionAnswers = joinRequestAnswerForOneQuestionRepository;
+            JoinRequests = joinRequestRepository;
+            Questions = questionRepository;
+            Reports = reportRepository;
+            Roles = roleRepository;
+            TextPosts = textPostRepository;
+
+            instance = this;
+        }
+
+        public static ApplicationState Get()
+        {
             return instance;
         }
     }

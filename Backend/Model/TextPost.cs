@@ -1,5 +1,4 @@
 ﻿using Moderation.Entities;
-using Moderation.Serivce;
 
 namespace Moderation.Model
 {
@@ -43,11 +42,11 @@ namespace Moderation.Model
             Awards = awards;
             IsDeleted = isDeleted;
         }
-        public TextPost(Guid id, string content, Guid authorID)
+        public TextPost(Guid id, string content, Guid authorID, GroupUser author)
         {
             Id = id;
             Content = content;
-            Author = ApplicationState.Get().GroupUsers.Get(authorID) ?? throw new Exception("No author by that id");
+            Author = author;
             Score = 0;
             Status = string.Empty;
             Awards = [];

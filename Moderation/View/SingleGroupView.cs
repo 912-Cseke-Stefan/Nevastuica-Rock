@@ -1,17 +1,19 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
-using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
-using Moderation.Repository;
-using Moderation.Serivce;
+using Backend.Service;
 
 namespace Moderation.View;
 
 public class SingleGroupView : ContentView
 {
-    public SingleGroupView(Group group, User? user)
+    private IService service;
+
+    public SingleGroupView(IService service, Group group, User? user)
     {
+        this.service = service;
+
         if (user == null)
         {
             return;
@@ -40,8 +42,7 @@ public class SingleGroupView : ContentView
             if (userIsInGroup)
             {
                 CurrentSession.GetInstance().LookIntoGroup(group);
-                TextPostRepository repo = ApplicationState.Get().TextPosts;
-                List<TextPost> posts = repo.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
+                List<TextPost> posts = service.GetPostsOfAuthorsInGivenGroup(group);
                 GroupFeedView nextPage = new (posts);
                 Navigation.PushAsync(nextPage);
             }
@@ -66,7 +67,7 @@ public class SingleGroupView : ContentView
         reportButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new ReportListView.ReportListView(ApplicationState.Get().Reports.GetAll().Where(report => report.GroupId == group.Id)));
+            Navigation.PushAsync(new ReportListView.ReportListView(service, group));
         };
         var joinRequestButton = new Button
         {
@@ -79,7 +80,7 @@ public class SingleGroupView : ContentView
         joinRequestButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(ApplicationState.Get().JoinRequests.GetAll().Where(request => ApplicationState.Get().GroupUsers.Get(request.UserId)?.GroupId == group.Id)));
+            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(service, group));
         };
         if (userIsInGroup)
         {

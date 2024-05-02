@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Repository.Interfaces
 {
-    internal interface IQuestionRepository
+    public interface IQuestionRepository
     {
     }
 }

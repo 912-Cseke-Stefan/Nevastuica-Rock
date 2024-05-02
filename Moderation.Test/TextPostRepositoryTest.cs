@@ -19,11 +19,11 @@ namespace Moderation.Test
         public void AddToTextPostRepository_SuccessiveAdds_ReturnsSuccessiveBool()
         {
             TextPost textPost1 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6555"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
             TextPost textPost2 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6556"), "Post 2!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 2!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
             TextPost textPost3 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6557"), "Post 3!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 3!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             bool result1 = repo.Add(textPost1.Id, textPost1);
             bool result2 = repo.Add(textPost2.Id, textPost2);
@@ -38,7 +38,7 @@ namespace Moderation.Test
         public void AddToTextPostRepository_NewPost_IncreasesCountByOne()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6544"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             var countBefore = repo.GetAll().ToArray().Length;
             repo.Add(textPost.Id, textPost);
@@ -51,7 +51,7 @@ namespace Moderation.Test
         public void ContainsInTextPostRepository_ExistingPost_ReturnsTrue()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6551"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             repo.Add(textPost.Id, textPost);
 
@@ -64,7 +64,7 @@ namespace Moderation.Test
         public void ContainsInTextPostRepository_NonExistingPost_ReturnsFalse()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6552"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             bool result = repo.Contains(textPost.Id);
 
@@ -75,7 +75,7 @@ namespace Moderation.Test
         public void GetInTextPostRepository_ExistingPost_ReturnsPost()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6553"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             repo.Add(textPost.Id, textPost);
 
@@ -87,7 +87,7 @@ namespace Moderation.Test
         public void GetInTextPostRepository_NonExistingPost_ReturnsNull()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6554"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             var result = repo.Get(textPost.Id);
 
@@ -98,11 +98,11 @@ namespace Moderation.Test
         public void GetAllInTextPostRepository_ReturnsAllPosts()
         {
             TextPost textPost1 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6515"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
             TextPost textPost2 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6516"), "Post 2!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 2!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
             TextPost textPost3 =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6517"), "Post 3!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 3!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             repo.Add(textPost1.Id, textPost1);
             repo.Add(textPost2.Id, textPost2);
@@ -119,7 +119,7 @@ namespace Moderation.Test
         public void RemoveInTextPostRepository_ExistingPost_ReturnsTrue()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6518"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             repo.Add(textPost.Id, textPost);
 
@@ -132,7 +132,7 @@ namespace Moderation.Test
         public void UpdateInTextPostRepository_ExistingPost_ReturnsTrue()
         {
             TextPost textPost =
-                new TextPost(Guid.Parse("AC60415D-2442-491D-BCA8-CBAB6A1C6519"), "Post 1!", Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"));
+                new TextPost("Post 1!", new GroupUser(Guid.NewGuid(), Guid.NewGuid()));
 
             repo.Add(textPost.Id, textPost);
 

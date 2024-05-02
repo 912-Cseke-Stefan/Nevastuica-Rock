@@ -1,13 +1,14 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
-using Moderation.Serivce;
+using Backend.Service;
 namespace Moderation;
 
 public partial class LoginPage : ContentPage
 {
-    private readonly ApplicationState currentApp = ApplicationState.Get();
-    public LoginPage()
+    private IService service;
+    public LoginPage(IService service)
     {
+        this.service = service;
         InitializeComponent();
     }
 
@@ -20,9 +21,9 @@ public partial class LoginPage : ContentPage
         {
             // CurrentApp.Authenticator.AuthMethod(username, password); <-- this got temporarily replaced by this:|
             //                                                                                                   v
-            Guid userId = ApplicationState.Get().UserRepository.GetGuidByName(username)
+            Guid userId = service.GetUserGuidByName(username)
                 ?? throw new ArgumentException("No account with that username");
-            User currentUser = ApplicationState.Get().UserRepository.Get(userId)
+            User currentUser = service.GetUserByGuid(userId)
                 ?? throw new ArgumentException("Could not find user");
             string pass = currentUser.Password;
 
@@ -33,7 +34,7 @@ public partial class LoginPage : ContentPage
             usernameEntry.Text = string.Empty;
             passwordEntry.Text = string.Empty;
             CurrentSession.GetInstance().LogIn(currentUser);
-            await Navigation.PushAsync(new GroupsView());
+            await Navigation.PushAsync(new GroupsView(service));
         }
         catch (ArgumentException argEx)
         {

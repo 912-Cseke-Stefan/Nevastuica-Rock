@@ -4,7 +4,7 @@ using Moderation.Entities;
 
 namespace Moderation.Test
 {
-    public class GroupUserRepositoryUnitTest
+    public class GroupUserRepositoryTest
     {
         private GroupUserRepository GroupUserRepository;
         [SetUp]

@@ -1,7 +1,6 @@
-using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Serivce;
+using Backend.Service;
 using Moderation.View.GroupFeed;
 
 namespace Moderation.ReportListView;
@@ -9,8 +8,10 @@ namespace Moderation.ReportListView;
 public partial class ReportDisplay : ContentView
 {
     private PostReport postReport;
-    public ReportDisplay(PostReport report)
+    private IService service;
+    public ReportDisplay(IService service, PostReport report)
     {
+        this.service = service;
         this.postReport = report;
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 
@@ -23,8 +24,8 @@ public partial class ReportDisplay : ContentView
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        GroupUser groupUser = ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id == report.UserId && guser.GroupId == report.GroupId).ToArray()[0];
-        User user = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
+        GroupUser groupUser = service.GetGroupUserFromPostReport(report);
+        User user = service.GetUserFromGroupUser(groupUser);
         var userIdValueLabel = new Label { Text = user.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 
         userIdStackLayout.Children.Add(userIdLabel);
@@ -34,18 +35,17 @@ public partial class ReportDisplay : ContentView
         // stackLayout.Children.Add(new PostDisplay(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Id == report.PostId).ToArray()[0]));
         var reportedUserNameStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportedUserNameLabel = new Label { Text = "Reported User Name: ", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        TextPost post = ApplicationState.Get().TextPosts.GetAll().Where(post => post.Id == report.PostId).ToArray()[0];
-        GroupUser reportedGroupUser = ApplicationState.Get().GroupUsers.GetAll().Where(guser => guser.Id == post.Author.Id).ToArray()[0];
-        User reportedUser = ApplicationState.Get().UserRepository.GetAll().Where(user => user.Id == reportedGroupUser.UserId).ToArray()[0];
+        User reportedUser = service.GetReportedUserFromReport(report);
         var reportedUserNameValue = new Label { Text = reportedUser.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 
         reportedUserNameStackLayout.Children.Add(reportedUserNameLabel);
         reportedUserNameStackLayout.Children.Add(reportedUserNameValue);
         stackLayout.Children.Add(reportedUserNameStackLayout);
 
+        TextPost reportedPost = service.GetReportedPostFromReport(report);
         var reportedPostTextStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportedPostLabel = new Label { Text = "Post content: ", FontSize = 16, Margin = new Thickness(0, 4, 16, 0) };
-        var reportedPostText = new Label { Text = post.Content, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var reportedPostText = new Label { Text = reportedPost.Content, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
         reportedPostTextStackLayout.Children.Add(reportedPostLabel);
         reportedPostTextStackLayout.Children.Add(reportedPostText);
         stackLayout.Children.Add(reportedPostTextStackLayout);
