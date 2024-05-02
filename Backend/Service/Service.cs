@@ -47,5 +47,28 @@ namespace Backend.Service
         {
             return state.JoinRequests.GetAll().Where(request => state.GroupUsers.Get(request.UserId)?.GroupId == group.Id);
         }
+
+        public User GetUserFromGroupUser(GroupUser groupUser)
+        {
+            return state.UserRepository.GetAll().Where(user => user.Id == groupUser.UserId).ToArray()[0];
+        }
+
+        public TextPost GetReportedPostFromReport(PostReport report)
+        {
+            return state.TextPosts.GetAll().Where(post => post.Id == report.PostId).ToArray()[0];
+        }
+
+        public User GetReportedUserFromReport(PostReport report)
+        {
+            TextPost postFromReport = state.TextPosts.GetAll()
+                                                     .Where(post => post.Id == report.PostId)
+                                                     .ToArray()[0];
+            GroupUser groupUserFromPost = state.GroupUsers.GetAll()
+                                                          .Where(guser => guser.Id == postFromReport.Author.Id)
+                                                          .ToArray()[0];
+            return state.UserRepository.GetAll()
+                                       .Where(user => user.Id == groupUserFromPost.UserId)
+                                       .ToArray()[0];
+        }
     }
 }
