@@ -63,7 +63,7 @@ namespace Moderation.Test
 
             var result = repo.Get(award.Id);
 
-            Assert.AreEqual(award, result);
+            Assert.That(result, Is.EqualTo(award));
         }
 
         [Test]

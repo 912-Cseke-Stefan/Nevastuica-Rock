@@ -52,7 +52,7 @@ namespace Moderation.Test
             var repository = new JoinRequestAnswerForOneQuestionRepository(data);
             var result = repository.Get(joinRequestAnswer.Id);
 
-            Assert.AreNotEqual(joinRequestAnswer, result);
+            Assert.That(result, Is.Not.EqualTo(joinRequestAnswer));
         }
 
         [Test]
