@@ -19,7 +19,7 @@ public partial class GroupsView : ContentPage
     {
         foreach (Group group in service.GetAllGroups())
         {
-            ((StackLayout)Content).Children.Add(new View.SingleGroupView(group, CurrentSession.GetInstance().User));
+            ((StackLayout)Content).Children.Add(new View.SingleGroupView(service, group, CurrentSession.GetInstance().User));
         }
         Button backButton = new ()
         {
