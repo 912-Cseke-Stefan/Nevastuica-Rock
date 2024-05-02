@@ -33,7 +33,7 @@ namespace Moderation
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<ITextPostRepository, TextPostRepository>();
             builder.Services.AddSingleton<ApplicationState>();
-            builder.Services.AddSingleton<Service>();
+            builder.Services.AddSingleton<IService, Service>();
             builder.Services.AddSingleton<LoginPage>();
 
 #if DEBUG

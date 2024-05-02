@@ -6,9 +6,9 @@ namespace Moderation;
 
 public partial class GroupsView : ContentPage
 {
-    private Service service;
+    private IService service;
 
-    public GroupsView(Service service)
+    public GroupsView(IService service)
     {
         this.service = service;
         Content = new StackLayout { HorizontalOptions = LayoutOptions.Fill };

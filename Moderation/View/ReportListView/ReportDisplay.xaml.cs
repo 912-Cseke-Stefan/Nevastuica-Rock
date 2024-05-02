@@ -8,8 +8,8 @@ namespace Moderation.ReportListView;
 public partial class ReportDisplay : ContentView
 {
     private PostReport postReport;
-    private Service service;
-    public ReportDisplay(Service service, PostReport report)
+    private IService service;
+    public ReportDisplay(IService service, PostReport report)
     {
         this.service = service;
         this.postReport = report;

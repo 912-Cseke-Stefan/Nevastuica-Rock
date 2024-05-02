@@ -6,9 +6,9 @@ namespace Moderation.JoinRequestView;
 
 public partial class JoinRequestListView : ContentPage
 {
-    private Service service;
+    private IService service;
 	private IEnumerable<JoinRequest> joinRequests;
-	public JoinRequestListView(Service service, Group group)
+	public JoinRequestListView(IService service, Group group)
 	{
         this.service = service;
 		this.joinRequests = service.GetJoinRequestsForGivenGroup(group);

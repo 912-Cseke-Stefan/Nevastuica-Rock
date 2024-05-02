@@ -5,9 +5,9 @@ namespace Moderation.ReportListView;
 
 public partial class ReportListView : ContentPage
 {
-    private Service service;
+    private IService service;
 	private readonly IEnumerable<PostReport> postReports;
-	public ReportListView(Service service, Group group)
+	public ReportListView(IService service, Group group)
 	{
         this.service = service;
 		// InitializeComponent();

@@ -5,8 +5,8 @@ namespace Moderation;
 
 public partial class LoginPage : ContentPage
 {
-    private Service service;
-    public LoginPage(Service service)
+    private IService service;
+    public LoginPage(IService service)
     {
         this.service = service;
         InitializeComponent();

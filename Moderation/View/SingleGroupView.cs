@@ -8,9 +8,9 @@ namespace Moderation.View;
 
 public class SingleGroupView : ContentView
 {
-    private Service service;
+    private IService service;
 
-    public SingleGroupView(Service service, Group group, User? user)
+    public SingleGroupView(IService service, Group group, User? user)
     {
         this.service = service;
 
