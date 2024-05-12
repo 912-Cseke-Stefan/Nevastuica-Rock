@@ -77,7 +77,6 @@ namespace Moderation.DbEndpoints
                 return [.. HardcodedRoles.Values];
             }
             List<Role> roles = [];
-            connection.Open();
             string sql = "SELECT RoleId, Name FROM UserRole";
             using SqlCommand command = new (sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
