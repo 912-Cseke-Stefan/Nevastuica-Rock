@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using Microsoft.Data.SqlClient;
 using Moderation.Entities;
-using Moderation.Serivce;
 
 namespace Moderation.DbEndpoints
 {
