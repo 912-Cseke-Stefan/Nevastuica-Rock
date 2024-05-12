@@ -7,6 +7,7 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestEndpoints
     {
+        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new ()
         {
             {
@@ -23,7 +24,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -48,7 +49,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedJoinRequests.Values];
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -81,7 +82,7 @@ namespace Moderation.DbEndpoints
                 HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();

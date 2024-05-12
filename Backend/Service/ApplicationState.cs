@@ -19,7 +19,7 @@ namespace Moderation.Serivce
         public IReportRepository Reports { get; }
         public IRoleRepository Roles { get; }
         public ITextPostRepository TextPosts { get; }
-        public static bool DbConnectionIsAvailable { get; set; } = false;
+        public static bool DbConnectionIsAvailable { get; set; } = true;
 
         public ApplicationState(IGroupRepository groupRepository,
                                 IUserRepository userRepository,

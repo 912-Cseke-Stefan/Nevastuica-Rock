@@ -7,6 +7,8 @@ namespace Moderation.DbEndpoints
 {
     public class UserEndpoints
     {
+        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
         /// <summary>
         ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime,
         ///  use these hardcoded values:
@@ -24,7 +26,7 @@ namespace Moderation.DbEndpoints
                 HardcodedUsers.Add(user);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -54,7 +56,7 @@ namespace Moderation.DbEndpoints
                 return HardcodedUsers;
             }
             List<User> users = [];
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -95,7 +97,7 @@ namespace Moderation.DbEndpoints
                 UpdateUserIfDBUnavailable(newValues);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -136,7 +138,7 @@ namespace Moderation.DbEndpoints
                 DeleteUserIfDBUnavailable(id);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();

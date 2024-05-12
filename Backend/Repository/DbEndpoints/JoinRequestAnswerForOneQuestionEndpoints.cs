@@ -7,6 +7,7 @@ namespace Moderation.DbEndpoints
 {
     public class JoinRequestAnswerForOneQuestionEndpoints
     {
+        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private static readonly Dictionary<Guid, JoinRequestAnswerToOneQuestion> HardcodedAnswers = new ()
         {
             {
@@ -41,7 +42,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Add(question.Id, question);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -66,7 +67,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedAnswers.Values];
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -102,7 +103,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers[question.Id] = question;
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -133,7 +134,7 @@ namespace Moderation.DbEndpoints
                 HardcodedAnswers.Remove(question.Id);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();

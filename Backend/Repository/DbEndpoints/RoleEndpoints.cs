@@ -8,6 +8,7 @@ namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
+        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private static readonly Dictionary<Guid, Role> HardcodedRoles = new ()
         {
             {
@@ -40,7 +41,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Add(role.Id, role);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -75,7 +76,7 @@ namespace Moderation.DbEndpoints
             {
                 return [.. HardcodedRoles.Values];
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -128,7 +129,7 @@ namespace Moderation.DbEndpoints
                 toUpdate.Name = newName;
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -167,7 +168,7 @@ namespace Moderation.DbEndpoints
                 toUpdate.Permissions = newPermissions;
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
@@ -210,7 +211,7 @@ namespace Moderation.DbEndpoints
                 HardcodedRoles.Remove(roleId);
                 return;
             }
-            using SqlConnection connection = new ();
+            using SqlConnection connection = new (ConnectionString);
             try
             {
                 connection.Open();
