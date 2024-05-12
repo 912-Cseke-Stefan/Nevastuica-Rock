@@ -7,7 +7,7 @@ namespace Moderation.DbEndpoints
 {
     public class UserEndpoints
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
 
         /// <summary>
         ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime,
