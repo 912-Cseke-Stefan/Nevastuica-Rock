@@ -1,14 +1,12 @@
 ﻿using System.Configuration;
 using Microsoft.Data.SqlClient;
 using Moderation.Entities;
-using Moderation.Serivce;
 
 namespace Moderation.DbEndpoints
 {
     public class AwardEndpoint
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static readonly Dictionary<Guid, Award> HardcodedAwards = [];
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateAward(Award award)
         {
             using SqlConnection connection = new (ConnectionString);
@@ -19,7 +17,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedAwards.Add(award.Id, award);
                 return;
             }
 
@@ -39,7 +36,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                return [.. HardcodedAwards.Values];
+                return [];
             }
             List<Award> awards = [];
             string sql = "SELECT * FROM Award";
@@ -66,12 +63,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                if (!HardcodedAwards.ContainsKey(award.Id))
-                {
-                    return;
-                }
-
-                HardcodedAwards[award.Id] = award;
                 return;
             }
             string sql = "UPDATE Award SET Type=@T WHERE AwardId=@Id";
@@ -90,7 +81,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedAwards.Remove(id);
                 return;
             }
             string sql = "DELETE FROM Award WHERE AwardId=@id";

@@ -1,32 +1,12 @@
 ﻿using System.Configuration;
 using Microsoft.Data.SqlClient;
 using Moderation.Model;
-using Moderation.Serivce;
 
 namespace Moderation.DbEndpoints
 {
     public class ReportEndpoint
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static readonly Dictionary<Guid, PostReport> HardcodedReports = new ()
-        {
-            {
-                Guid.Parse("AA0B1530-2AAF-489B-AFAB-56EA4F95980B"),
-                new PostReport(Guid.Parse("AA0B1530-2AAF-489B-AFAB-56EA4F95980B"),
-                    Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), // The Reporter
-                    Guid.Parse("EC492AE1-D795-442E-9F64-88DC19CA8F6E"), // The post
-                    "This is not a nice post",
-                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")) // The Group
-            },
-            {
-                Guid.Parse("E59FACA6-8FFB-450B-8017-FF9F111E8A95"),
-                new PostReport(Guid.Parse("E59FACA6-8FFB-450B-8017-FF9F111E8A95"),
-                    Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"), // The Reporter
-                    Guid.Parse("97BE5A68-F673-4AF5-BDE5-0D7D7D7DE27A"), // The post
-                    "This is even worse!",
-                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973")) // The Group
-            }
-        };
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreatePostReport(PostReport postReport)
         {
             using SqlConnection connection = new (ConnectionString);
@@ -37,7 +17,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
 
@@ -63,7 +42,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                return [.. HardcodedReports.Values];
+                return [];
             }
             List<PostReport> postReports = [];
 
@@ -91,7 +70,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedReports.Remove(reportId);
                 return;
             }
 
@@ -113,12 +91,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                if (!HardcodedReports.ContainsKey(id))
-                {
-                    return;
-                }
-
-                HardcodedReports[id] = postReport;
                 return;
             }
             string sqlCommandString = "UPDATE Report" +

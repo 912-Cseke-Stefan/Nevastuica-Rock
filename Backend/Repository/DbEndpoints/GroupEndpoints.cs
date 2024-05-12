@@ -8,26 +8,7 @@ namespace Moderation.DbEndpoints
 {
     internal class GroupEndpoints
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static readonly Dictionary<Guid, Group> HardcodedGroups = new ()
-        {
-            {
-                Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
-                new Group (
-                    Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),
-                    "Izabella's birthday party",
-                    "balabla",
-                    new User("Izabella"))
-            },
-            {
-                Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
-                new Group (
-                    Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),
-                    "Victor's study group",
-                    "none provided",
-                    new User("Victor"))
-            }
-        };
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateGroup(Group group)
         {
             using SqlConnection connection = new (ConnectionString);
@@ -38,7 +19,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                HardcodedGroups.Add(group.Id, group);
                 return;
             }
 
@@ -63,7 +43,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                return [.. HardcodedGroups.Values];
+                return [];
             }
 
             List<Group> groups = [];
@@ -96,12 +76,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                if (HardcodedGroups[group.Id] == null)
-                {
-                    return;
-                }
-
-                HardcodedGroups[group.Id] = group;
                 return;
             }
             string sql = "UPDATE Group" +
@@ -125,7 +99,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureazureTrialExpired)
             {
                 Console.WriteLine(azureazureTrialExpired.Message);
-                HardcodedGroups.Remove(id);
                 return;
             }
 

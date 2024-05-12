@@ -2,38 +2,12 @@
 using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Serivce;
 
 namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static readonly Dictionary<Guid, Role> HardcodedRoles = new ()
-        {
-            {
-                Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
-                new Role(
-                    Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
-                    "Creator",
-                    Enum.GetValues(typeof(Permission)).Cast<Permission>().ToList())
-            },
-            {
-                Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
-                new Role(
-                    Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
-                    "Member",
-                   [Permission.CreatePost, Permission.ReportPost, Permission.EditOwnPost, Permission.React, Permission.CreateEvent, Permission.EditOwnComment,
-                    Permission.InviteFriends, Permission.RemoveOwnComment, Permission.RemoveOwnPost, Permission.RemoveOwnReaction, Permission.UpdateOwnReaction])
-            },
-            {
-                Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
-                new Role(
-                    Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
-                    "Pending Approval",
-                   [])
-            }
-        };
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateRole(Role role)
         {
             using SqlConnection connection = new (ConnectionString);
@@ -44,7 +18,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedRoles.Add(role.Id, role);
                 return;
             }
 
@@ -74,7 +47,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                return [.. HardcodedRoles.Values];
+                return [];
             }
             List<Role> roles = [];
             string sql = "SELECT RoleId, Name FROM UserRole";
@@ -115,12 +88,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
-                {
-                    return;
-                }
-
-                toUpdate.Name = newName;
                 return;
             }
             connection.Open();
@@ -143,12 +110,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
-                {
-                    return;
-                }
-
-                toUpdate.Permissions = newPermissions;
                 return;
             }
             // Delete existing permissions for the role
@@ -180,7 +141,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedRoles.Remove(roleId);
                 return;
             }
             // Delete associated permissions from RolePermission table first

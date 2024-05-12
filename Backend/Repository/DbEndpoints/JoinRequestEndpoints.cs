@@ -1,22 +1,12 @@
 ﻿using System.Configuration;
 using Microsoft.Data.SqlClient;
 using Moderation.Entities;
-using Moderation.Serivce;
 
 namespace Moderation.DbEndpoints
 {
     public class JoinRequestEndpoints
     {
-        private static readonly string ConnectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static readonly Dictionary<Guid, JoinRequest> HardcodedJoinRequests = new ()
-        {
-            {
-                Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),
-                // Norby's request to join Victor's study group
-                new JoinRequest(Guid.Parse("4E965DCE-66AC-4040-9E65-BE0BEE465928"),
-                    Guid.Parse("4017CB13-22B0-43B7-A111-50154C62CC6C"))
-            }
-        };
+        private static readonly string ConnectionString = "Data Source=192.168.100.43,1235;Initial Catalog=Moderation;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateJoinRequest(JoinRequest joinRequest)
         {
             using SqlConnection connection = new (ConnectionString);
@@ -27,7 +17,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
 
@@ -47,7 +36,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                return [.. HardcodedJoinRequests.Values];
+                return [];
             }
             List<JoinRequest> joinRequests = [];
             string sql = "SELECT Junior.Id, Junior.UserId " +
@@ -74,7 +63,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }
             string deleteJoinRequestSql = "DELETE FROM JoinRequest WHERE Id = @Id";
