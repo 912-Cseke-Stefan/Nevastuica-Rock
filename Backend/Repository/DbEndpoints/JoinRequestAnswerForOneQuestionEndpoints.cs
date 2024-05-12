@@ -37,11 +37,6 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateQuestion(JoinRequestAnswerToOneQuestion question)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedAnswers.Add(question.Id, question);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -50,7 +45,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedAnswers.Add(question.Id, question);
                 return;
             }
@@ -63,10 +57,6 @@ namespace Moderation.DbEndpoints
         }
         public static List<JoinRequestAnswerToOneQuestion> ReadQuestion()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedAnswers.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -75,7 +65,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedAnswers.Values];
             }
             List<JoinRequestAnswerToOneQuestion> allAnswersToAllQuestions = [];
@@ -93,16 +82,6 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateQuestion(JoinRequestAnswerToOneQuestion question)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedAnswers.ContainsKey(question.Id))
-                {
-                    return;
-                }
-
-                HardcodedAnswers[question.Id] = question;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -111,7 +90,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedAnswers.ContainsKey(question.Id))
                 {
                     return;
@@ -129,11 +107,6 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteQuestion(JoinRequestAnswerToOneQuestion question)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedAnswers.Remove(question.Id);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -142,7 +115,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedAnswers.Remove(question.Id);
                 return;
             }

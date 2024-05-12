@@ -29,11 +29,6 @@ namespace Moderation.DbEndpoints
         };
         public static void CreatePostReport(PostReport postReport)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedReports.Add(postReport.Id, postReport);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -42,7 +37,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedReports.Add(postReport.Id, postReport);
                 return;
             }
@@ -61,10 +55,6 @@ namespace Moderation.DbEndpoints
 
         public static List<PostReport> ReadAllPostReports()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedReports.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -73,7 +63,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedReports.Values];
             }
             List<PostReport> postReports = [];
@@ -94,11 +83,6 @@ namespace Moderation.DbEndpoints
 
         public static void DeletePostReport(Guid reportId)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedReports.Remove(reportId);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -107,7 +91,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedReports.Remove(reportId);
                 return;
             }
@@ -122,16 +105,6 @@ namespace Moderation.DbEndpoints
 
         public static void UpdatePostReport(Guid id, PostReport postReport)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedReports.ContainsKey(id))
-                {
-                    return;
-                }
-
-                HardcodedReports[id] = postReport;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -140,7 +113,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedReports.ContainsKey(id))
                 {
                     return;

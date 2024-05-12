@@ -36,11 +36,6 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateRole(Role role)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedRoles.Add(role.Id, role);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -49,7 +44,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedRoles.Add(role.Id, role);
                 return;
             }
@@ -72,10 +66,6 @@ namespace Moderation.DbEndpoints
         }
         public static List<Role> ReadRole()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedRoles.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -84,7 +74,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedRoles.Values];
             }
             List<Role> roles = [];
@@ -119,16 +108,6 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateRoleName(Guid roleId, string newName)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
-                {
-                    return;
-                }
-
-                toUpdate.Name = newName;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -137,7 +116,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
                 {
                     return;
@@ -158,16 +136,6 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateRolePermissions(Guid roleId, List<Permission> newPermissions)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
-                {
-                    return;
-                }
-
-                toUpdate.Permissions = newPermissions;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -176,7 +144,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
                 {
                     return;
@@ -206,11 +173,6 @@ namespace Moderation.DbEndpoints
 
         public static void DeleteRole(Guid roleId)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedRoles.Remove(roleId);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -219,7 +181,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedRoles.Remove(roleId);
                 return;
             }

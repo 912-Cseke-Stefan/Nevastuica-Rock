@@ -21,11 +21,6 @@ namespace Moderation.DbEndpoints
                                                      new User(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"), "izabella", "yup")];
         public static void CreateUser(User user)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedUsers.Add(user);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -34,7 +29,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedUsers.Add(user);
                 return;
             }
@@ -51,10 +45,6 @@ namespace Moderation.DbEndpoints
 
         public static List<User> ReadAllUsers()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return HardcodedUsers;
-            }
             List<User> users = [];
             using SqlConnection connection = new (ConnectionString);
             try
@@ -64,7 +54,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return HardcodedUsers;
             }
             string sql = "SELECT Id, Username, Password FROM [User]";
@@ -78,25 +67,8 @@ namespace Moderation.DbEndpoints
             }
             return users;
         }
-        private static void UpdateUserIfDBUnavailable(User newValues)
-        {
-            User? toUpdate = HardcodedUsers.Where(u => u.Id == newValues.Id).First();
-            if (toUpdate == null)
-            {
-                return;
-            }
-
-            toUpdate.Username = newValues.Username;
-            toUpdate.Password = newValues.Password;
-            return;
-        }
         public static void UpdateUser(User newValues)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                UpdateUserIfDBUnavailable(newValues);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -105,8 +77,14 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
-                UpdateUserIfDBUnavailable(newValues);
+                User? toUpdate = HardcodedUsers.Where(u => u.Id == newValues.Id).First();
+                if (toUpdate == null)
+                {
+                    return;
+                }
+
+                toUpdate.Username = newValues.Username;
+                toUpdate.Password = newValues.Password;
                 return;
             }
             string sql = "UPDATE User" +
@@ -120,24 +98,8 @@ namespace Moderation.DbEndpoints
 
             command.ExecuteNonQuery();
         }
-        private static void DeleteUserIfDBUnavailable(Guid id)
-        {
-            User? toRemove = HardcodedUsers.Where(u => u.Id == id).First();
-            if (toRemove == null)
-            {
-                return;
-            }
-
-            HardcodedUsers.Remove(toRemove);
-            return;
-        }
         public static void DeleteUser(Guid id)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                DeleteUserIfDBUnavailable(id);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -146,8 +108,13 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
-                DeleteUserIfDBUnavailable(id);
+                User? toRemove = HardcodedUsers.Where(u => u.Id == id).First();
+                if (toRemove == null)
+                {
+                    return;
+                }
+
+                HardcodedUsers.Remove(toRemove);
                 return;
             }
 

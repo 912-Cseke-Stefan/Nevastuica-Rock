@@ -19,11 +19,6 @@ namespace Moderation.DbEndpoints
         };
         public static void CreateJoinRequest(JoinRequest joinRequest)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -32,7 +27,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedJoinRequests.Add(joinRequest.Id, joinRequest);
                 return;
             }
@@ -45,10 +39,6 @@ namespace Moderation.DbEndpoints
         }
         public static List<JoinRequest> ReadAllJoinRequests()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedJoinRequests.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -57,7 +47,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedJoinRequests.Values];
             }
             List<JoinRequest> joinRequests = [];
@@ -77,11 +66,6 @@ namespace Moderation.DbEndpoints
 
         public static void DeleteJoinRequest(Guid joinRequestId)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedJoinRequests.Remove(joinRequestId);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -90,7 +74,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedJoinRequests.Remove(joinRequestId);
                 return;
             }

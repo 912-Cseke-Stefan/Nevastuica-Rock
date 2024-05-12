@@ -11,11 +11,6 @@ namespace Moderation.DbEndpoints
         private static readonly Dictionary<Guid, Award> HardcodedAwards = [];
         public static void CreateAward(Award award)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedAwards.Add(award.Id, award);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -24,7 +19,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedAwards.Add(award.Id, award);
                 return;
             }
@@ -37,10 +31,6 @@ namespace Moderation.DbEndpoints
         }
         public static List<Award> ReadAwards()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedAwards.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -49,7 +39,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedAwards.Values];
             }
             List<Award> awards = [];
@@ -69,16 +58,6 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateAward(Award award)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedAwards.ContainsKey(award.Id))
-                {
-                    return;
-                }
-
-                HardcodedAwards[award.Id] = award;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -87,7 +66,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedAwards.ContainsKey(award.Id))
                 {
                     return;
@@ -104,11 +82,6 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteAward(Guid id)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedAwards.Remove(id);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -117,7 +90,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedAwards.Remove(id);
                 return;
             }

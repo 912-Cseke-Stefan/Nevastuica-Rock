@@ -69,11 +69,6 @@ namespace Moderation.DbEndpoints
 
         public static void CreateGroupUser(GroupUser user)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedGroupUsers.Add(user.Id, user);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -82,7 +77,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedGroupUsers.Add(user.Id, user);
                 return;
             }
@@ -104,10 +98,6 @@ namespace Moderation.DbEndpoints
         }
         public static List<GroupUser> ReadAllGroupUsers()
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                return [.. HardcodedGroupUsers.Values];
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -116,7 +106,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 return [.. HardcodedGroupUsers.Values];
             }
             List<GroupUser> users = [];
@@ -137,16 +126,6 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateGroupUser(GroupUser user)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                if (!HardcodedGroupUsers.ContainsKey(user.Id))
-                {
-                    return;
-                }
-
-                HardcodedGroupUsers[user.Id] = user;
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -155,7 +134,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 if (!HardcodedGroupUsers.ContainsKey(user.Id))
                 {
                     return;
@@ -190,11 +168,6 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteGroupUser(Guid id)
         {
-            if (!ApplicationState.DbConnectionIsAvailable)
-            {
-                HardcodedGroupUsers.Remove(id);
-                return;
-            }
             using SqlConnection connection = new (ConnectionString);
             try
             {
@@ -203,7 +176,6 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                ApplicationState.DbConnectionIsAvailable = false;
                 HardcodedGroupUsers.Remove(id);
                 return;
             }
